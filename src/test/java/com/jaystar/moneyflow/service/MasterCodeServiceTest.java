@@ -13,12 +13,13 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-public class CodeServiceTest {
+class MasterCodeServiceTest {
 
     @InjectMocks
-    private CodeService codeService;
+    private MasterCodeService masterCodeService;
 
     @Mock
     private MasterCodeRepository masterCodeRepository;
@@ -35,7 +36,7 @@ public class CodeServiceTest {
 
         given(masterCodeRepository.findAll()).willReturn(mockMasterCodes);
 
-        List<MasterCode> masterCodes = codeService.getMasterCodes();
+        List<MasterCode> masterCodes = masterCodeService.getMasterCodes();
         MasterCode masterCode = masterCodes.get(0);
 
         assertThat(masterCode.getCode()).isEqualTo("123");
@@ -44,12 +45,40 @@ public class CodeServiceTest {
 
     @Test
     void getMasterCodeById() {
-        Long codeId = 10L;
+        long codeId = 10L;
         given(masterCodeRepository.findById(codeId)).willReturn(Optional.of(new MasterCode(10L, "A123", "TEST")));
 
-        MasterCode masterCode = codeService.getMasterCodeById(codeId);
+        MasterCode masterCode = masterCodeService.getMasterCodeById(codeId);
 
         assertThat(masterCode.getCode()).isEqualTo("A123");
         assertThat(masterCode.getCodeName()).isEqualTo("TEST");
+    }
+
+    @Test
+    void addMasterCode() {
+        given(masterCodeRepository.save(any())).will(invocation -> {
+            MasterCode masterCode = invocation.getArgument(0);
+            masterCode.setId(1234L);
+            return masterCode;
+        });
+
+        MasterCode created = new MasterCode(123L, "1234", "code");
+        masterCodeService.addMasterCode(created);
+
+        assertThat(created.getId()).isEqualTo(1234L);
+        assertThat(created.getCode()).isEqualTo("1234");
+        assertThat(created.getCodeName()).isEqualTo("code");
+    }
+
+    @Test
+    void updateMasterCode() {
+        MasterCode masterCode = new MasterCode(123L, "1234", "code");
+
+        given(masterCodeRepository.findById(123L))
+                .willReturn(Optional.of(masterCode));
+
+        masterCodeService.updateMasterCodeName(123L, "code1");
+
+        assertThat(masterCode.getCodeName()).isEqualTo("code1");
     }
 }
