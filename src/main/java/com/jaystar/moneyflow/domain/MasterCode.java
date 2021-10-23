@@ -2,13 +2,16 @@ package com.jaystar.moneyflow.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @AllArgsConstructor
 public class MasterCode {
-    private final Long id;
 
-    private final String code;
+    @Setter
+    private Long id;
+
+    private String code;
 
     private String codeName;
 
