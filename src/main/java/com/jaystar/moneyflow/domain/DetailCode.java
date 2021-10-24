@@ -7,9 +7,9 @@ import lombok.Getter;
 public class DetailCode {
 
     @Getter
-    private final long id;
+    private long id;
 
-    private final MasterCode masterCode;
+    private MasterCode masterCode;
 
     @Getter
     private final String detailCode;
