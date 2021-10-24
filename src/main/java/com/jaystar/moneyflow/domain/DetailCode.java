@@ -17,7 +17,7 @@ public class DetailCode {
     @Getter
     private String detailCodeName;
 
-    public void updateDetailCodeName(String detailCodeName) {
+    public void modifyDetailCodeName(String detailCodeName) {
         this.detailCodeName = detailCodeName;
     }
 

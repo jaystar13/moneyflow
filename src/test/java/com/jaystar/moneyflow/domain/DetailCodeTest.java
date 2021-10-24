@@ -27,7 +27,7 @@ class DetailCodeTest {
 
     @Test
     void updateDetailCodeName() {
-        detailCode.updateDetailCodeName("update 첫번째상세코드");
+        detailCode.modifyDetailCodeName("update 첫번째상세코드");
         assertThat(detailCode.getDetailCodeName()).isEqualTo("update 첫번째상세코드");
     }
 }
