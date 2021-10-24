@@ -29,7 +29,7 @@ public class MasterCodeService {
     public MasterCode updateMasterCodeName(long id, String masterCodeName) {
         MasterCode masterCode = masterCodeRepository.findById(id).orElseThrow();
 
-        masterCode.updateCodeName(masterCodeName);
+        masterCode.modifyCodeName(masterCodeName);
 
         return masterCode;
     }

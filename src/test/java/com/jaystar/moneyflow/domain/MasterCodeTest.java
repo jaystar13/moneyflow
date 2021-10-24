@@ -21,7 +21,7 @@ class MasterCodeTest {
 
     @Test
     void updateCodeName() {
-        masterCode.updateCodeName("UPDATE_CODE");
+        masterCode.modifyCodeName("UPDATE_CODE");
         assertThat(masterCode.getCodeName()).isEqualTo("UPDATE_CODE");
     }
 }

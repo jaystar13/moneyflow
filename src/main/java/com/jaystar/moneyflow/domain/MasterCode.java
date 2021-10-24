@@ -15,7 +15,7 @@ public class MasterCode {
 
     private String codeName;
 
-    public void updateCodeName(String codeName) {
+    public void modifyCodeName(String codeName) {
         this.codeName = codeName;
     }
 }
