@@ -10,17 +10,15 @@ class DetailCodeTest {
 
     @BeforeEach
     void setup() {
-        MasterCode masterCode = new MasterCode(1L, "A123", "1번코드");
         String detailCode = "A123-1";
         String detailCodeName = "첫번째상세코드";
 
-        this.detailCode = new DetailCode(10L, masterCode, detailCode, detailCodeName);
+        this.detailCode = new DetailCode(10L, "A123", detailCode, detailCodeName);
     }
 
     @Test
     void find() {
         assertThat(detailCode.getMasterCode()).isEqualTo("A123");
-        assertThat(detailCode.getMasterCodeName()).isEqualTo("1번코드");
         assertThat(detailCode.getDetailCode()).isEqualTo("A123-1");
         assertThat(detailCode.getDetailCodeName()).isEqualTo("첫번째상세코드");
     }

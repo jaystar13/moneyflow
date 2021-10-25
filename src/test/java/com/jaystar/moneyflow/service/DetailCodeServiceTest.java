@@ -1,7 +1,6 @@
 package com.jaystar.moneyflow.service;
 
 import com.jaystar.moneyflow.domain.DetailCode;
-import com.jaystar.moneyflow.domain.MasterCode;
 import com.jaystar.moneyflow.repository.DetailCodeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +29,7 @@ class DetailCodeServiceTest {
     @Test
     void find() {
         List<DetailCode> mockDetailCodes = new ArrayList<>();
-        mockDetailCodes.add(new DetailCode(1234L, new MasterCode(111L, "A123", "masterCode"), "A1231", "detailCode"));
+        mockDetailCodes.add(new DetailCode(1234L, "A123", "A1231", "detailCode"));
 
         given(detailCodeRepository.findByMasterCode("A123")).willReturn(mockDetailCodes);
 
