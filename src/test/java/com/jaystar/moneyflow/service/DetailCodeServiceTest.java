@@ -38,4 +38,16 @@ class DetailCodeServiceTest {
 
         assertThat(detailCode.getMasterCode()).isEqualTo("A123");
     }
+
+    @Test
+    void modifyDetailCodeName() {
+        DetailCode detailCode = new DetailCode(1234L, "A123", "A1231", "detail_code");
+
+        given(detailCodeRepository.findById(1234L))
+                .willReturn(detailCode);
+
+        DetailCode updated = detailCodeService.modifyDetailCodeName(1234L, "updated_detail_code");
+
+        assertThat(updated.getDetailCodeName()).isEqualTo("updated_detail_code");
+    }
 }
