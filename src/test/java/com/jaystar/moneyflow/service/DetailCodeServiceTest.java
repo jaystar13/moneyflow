@@ -12,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 class DetailCodeServiceTest {
@@ -28,9 +29,14 @@ class DetailCodeServiceTest {
 
     @Test
     void find() {
-        List<DetailCode> detailCodes = new ArrayList<>();
-        detailCodes.add(new DetailCode(1234L, new MasterCode(111L, "A123", "masterCode"), "A1231", "detailCode"));
+        List<DetailCode> mockDetailCodes = new ArrayList<>();
+        mockDetailCodes.add(new DetailCode(1234L, new MasterCode(111L, "A123", "masterCode"), "A1231", "detailCode"));
 
-        given(detailCodeRepository.findByMasterCode("A123")).willReturn(detailCodes);
+        given(detailCodeRepository.findByMasterCode("A123")).willReturn(mockDetailCodes);
+
+        List<DetailCode> detailCodes = detailCodeService.getDetailCodes("A123");
+        DetailCode detailCode = detailCodes.get(0);
+
+        assertThat(detailCode.getMasterCode()).isEqualTo("A123");
     }
 }
