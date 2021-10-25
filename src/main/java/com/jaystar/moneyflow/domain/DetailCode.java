@@ -9,7 +9,7 @@ public class DetailCode {
     @Getter
     private long id;
 
-    private MasterCode masterCode;
+    private String masterCode;
 
     @Getter
     private final String detailCode;
@@ -22,10 +22,6 @@ public class DetailCode {
     }
 
     public String getMasterCode() {
-        return this.masterCode.getCode();
-    }
-
-    public String getMasterCodeName() {
-        return this.masterCode.getCodeName();
+        return this.masterCode;
     }
 }
