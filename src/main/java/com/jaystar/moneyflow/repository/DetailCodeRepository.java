@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface DetailCodeRepository {
     List<DetailCode> findByMasterCode(String masterCode);
+
+    DetailCode findById(long id);
 }

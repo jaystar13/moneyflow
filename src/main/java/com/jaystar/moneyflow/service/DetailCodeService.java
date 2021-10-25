@@ -15,4 +15,12 @@ public class DetailCodeService {
     public List<DetailCode> getDetailCodes(String masterCode) {
         return detailCodeRepository.findByMasterCode(masterCode);
     }
+
+    public DetailCode modifyDetailCodeName(long id, String detailCodeName) {
+        DetailCode detailCode = detailCodeRepository.findById(id);
+
+        detailCode.modifyDetailCodeName(detailCodeName);
+
+        return detailCode;
+    }
 }
