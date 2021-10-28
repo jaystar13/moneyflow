@@ -2,9 +2,11 @@ package com.jaystar.moneyflow.service;
 
 import com.jaystar.moneyflow.domain.MasterCode;
 import com.jaystar.moneyflow.repository.MasterCodeRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class MasterCodeService {
 
     private final MasterCodeRepository masterCodeRepository;
