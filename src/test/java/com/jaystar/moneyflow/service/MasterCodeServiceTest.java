@@ -1,6 +1,7 @@
 package com.jaystar.moneyflow.service;
 
 import com.jaystar.moneyflow.domain.MasterCode;
+import com.jaystar.moneyflow.dto.MasterCodeRequest;
 import com.jaystar.moneyflow.repository.MasterCodeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 class MasterCodeServiceTest {
 
@@ -56,18 +58,19 @@ class MasterCodeServiceTest {
 
     @Test
     void addMasterCode() {
-        given(masterCodeRepository.save(any())).will(invocation -> {
-            MasterCode masterCode = invocation.getArgument(0);
-            masterCode.setId(1234L);
-            return masterCode;
-        });
+        given(masterCodeRepository.save(any())).willReturn(MasterCode.builder()
+                .code("1234")
+                .codeName("code")
+                .build());
 
-        MasterCode created = new MasterCode(123L, "1234", "code");
-        masterCodeService.addMasterCode(created);
+        MasterCodeRequest request = MasterCodeRequest.builder()
+                .code("")
+                .codeName("")
+                .build();
 
-        assertThat(created.getId()).isEqualTo(1234L);
-        assertThat(created.getCode()).isEqualTo("1234");
-        assertThat(created.getCodeName()).isEqualTo("code");
+        masterCodeService.addMasterCode(request);
+
+        verify(masterCodeRepository).save(any());
     }
 
     @Test
