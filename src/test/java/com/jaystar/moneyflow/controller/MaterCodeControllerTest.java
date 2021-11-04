@@ -28,15 +28,15 @@ public class MaterCodeControllerTest {
     @Test
     void getMasterCodes() throws Exception {
         List<MasterCodeResponse> masterCodeResponses = Arrays.asList(
-                new MasterCodeResponse(1234L, "AAA", "master code"),
-                new MasterCodeResponse(1234L, "AAA", "master code")
+                new MasterCodeResponse(1L, "AAA", "master code1"),
+                new MasterCodeResponse(2L, "BBB", "master code2")
         );
 
-        given(masterCodeService.getMasterCodes()).willReturn(masterCodeResponses);
+        given(masterCodeService.findAllMasterCodes()).willReturn(masterCodeResponses);
 
         mvc.perform(get("/master-codes"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("master code")));
+                .andExpect(content().string(containsString("master code2")));
     }
 
     @Test

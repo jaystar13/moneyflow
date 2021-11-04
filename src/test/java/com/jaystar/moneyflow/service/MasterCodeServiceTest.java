@@ -39,7 +39,7 @@ class MasterCodeServiceTest {
 
         given(masterCodeRepository.findAll()).willReturn(mockMasterCodes);
 
-        List<MasterCodeResponse> masterCodeResponses = masterCodeService.getMasterCodes();
+        List<MasterCodeResponse> masterCodeResponses = masterCodeService.findAllMasterCodes();
         MasterCodeResponse masterCodeResponse = masterCodeResponses.get(0);
 
         assertThat(masterCodeResponse.getCode()).isEqualTo("123");
