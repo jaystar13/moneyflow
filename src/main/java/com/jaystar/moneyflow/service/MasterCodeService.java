@@ -32,7 +32,7 @@ public class MasterCodeService {
                 .orElseThrow(() -> new EntityNotFoundException("마스터 코드를 찾을 수 없습니다."));
     }
 
-    public Long addMasterCode(MasterCodeRequest masterCodeRequest) {
+    public Long add(MasterCodeRequest masterCodeRequest) {
         MasterCode masterCode = masterCodeRepository.save(masterCodeRequest.toMasterCode());
         return masterCode.getId();
     }
