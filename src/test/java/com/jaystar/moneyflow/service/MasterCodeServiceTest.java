@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -47,15 +48,17 @@ class MasterCodeServiceTest {
                 .containsExactly(masterCode1.getCodeName(), masterCode2.getCodeName());
     }
 
+    @DisplayName("마스터코드를 한건 조회한다.")
     @Test
-    void getMasterCodeById() {
-        long codeId = 10L;
-        given(masterCodeRepository.findById(codeId)).willReturn(Optional.of(new MasterCode(10L, "A123", "TEST")));
+    void findMasterCode() {
+        MasterCode masterCode1 = new MasterCode(10L, "A123", "TEST");
+        given(masterCodeRepository.findById(anyLong()))
+                .willReturn(Optional.of(masterCode1));
 
-        MasterCode masterCode = masterCodeService.getMasterCodeById(codeId);
+        MasterCodeResponse masterCodeResponse = masterCodeService.findMasterCode(1L);
 
-        assertThat(masterCode.getCode()).isEqualTo("A123");
-        assertThat(masterCode.getCodeName()).isEqualTo("TEST");
+        assertThat(masterCodeResponse.getCode()).isEqualTo(masterCode1.getCode());
+        assertThat(masterCodeResponse.getCodeName()).isEqualTo(masterCode1.getCodeName());
     }
 
     @Test
