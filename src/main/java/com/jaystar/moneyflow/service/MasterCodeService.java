@@ -18,7 +18,7 @@ public class MasterCodeService {
         this.masterCodeRepository = masterCodeRepository;
     }
 
-    public List<MasterCodeResponse> getMasterCodes() {
+    public List<MasterCodeResponse> findAllMasterCodes() {
         return Collections.unmodifiableList(MasterCodeResponse.listOf(masterCodeRepository.findAll()));
     }
 

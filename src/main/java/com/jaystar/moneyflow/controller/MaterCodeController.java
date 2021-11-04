@@ -18,6 +18,6 @@ public class MaterCodeController {
 
     @GetMapping("/master-codes")
     public List<MasterCodeResponse> list() {
-        return masterCodeService.getMasterCodes();
+        return masterCodeService.findAllMasterCodes();
     }
 }
