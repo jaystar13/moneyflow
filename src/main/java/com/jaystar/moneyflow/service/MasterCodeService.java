@@ -2,6 +2,7 @@ package com.jaystar.moneyflow.service;
 
 import com.jaystar.moneyflow.domain.MasterCode;
 import com.jaystar.moneyflow.dto.MasterCodeRequest;
+import com.jaystar.moneyflow.dto.MasterCodeResponse;
 import com.jaystar.moneyflow.repository.MasterCodeRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,8 @@ public class MasterCodeService {
         this.masterCodeRepository = masterCodeRepository;
     }
 
-    public List<MasterCode> getMasterCodes() {
-        return Collections.unmodifiableList(masterCodeRepository.findAll());
+    public List<MasterCodeResponse> getMasterCodes() {
+        return Collections.unmodifiableList(MasterCodeResponse.listOf(masterCodeRepository.findAll()));
     }
 
     public MasterCode getMasterCodeById(long id) {

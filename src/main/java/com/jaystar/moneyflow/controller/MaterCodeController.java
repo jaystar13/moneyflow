@@ -1,6 +1,6 @@
 package com.jaystar.moneyflow.controller;
 
-import com.jaystar.moneyflow.domain.MasterCode;
+import com.jaystar.moneyflow.dto.MasterCodeResponse;
 import com.jaystar.moneyflow.service.MasterCodeService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +17,7 @@ public class MaterCodeController {
     }
 
     @GetMapping("/master-codes")
-    public List<MasterCode> list() {
+    public List<MasterCodeResponse> list() {
         return masterCodeService.getMasterCodes();
     }
 }
