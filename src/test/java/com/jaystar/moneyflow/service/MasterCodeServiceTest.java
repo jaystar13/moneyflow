@@ -2,6 +2,7 @@ package com.jaystar.moneyflow.service;
 
 import com.jaystar.moneyflow.domain.MasterCode;
 import com.jaystar.moneyflow.dto.MasterCodeRequest;
+import com.jaystar.moneyflow.dto.MasterCodeResponse;
 import com.jaystar.moneyflow.repository.MasterCodeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,11 +39,11 @@ class MasterCodeServiceTest {
 
         given(masterCodeRepository.findAll()).willReturn(mockMasterCodes);
 
-        List<MasterCode> masterCodes = masterCodeService.getMasterCodes();
-        MasterCode masterCode = masterCodes.get(0);
+        List<MasterCodeResponse> masterCodeResponses = masterCodeService.getMasterCodes();
+        MasterCodeResponse masterCodeResponse = masterCodeResponses.get(0);
 
-        assertThat(masterCode.getCode()).isEqualTo("123");
-        assertThat(masterCode.getCodeName()).isEqualTo("code");
+        assertThat(masterCodeResponse.getCode()).isEqualTo("123");
+        assertThat(masterCodeResponse.getCodeName()).isEqualTo("code");
     }
 
     @Test
