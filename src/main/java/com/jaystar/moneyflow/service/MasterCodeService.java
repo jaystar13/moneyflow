@@ -6,6 +6,7 @@ import com.jaystar.moneyflow.dto.MasterCodeResponse;
 import com.jaystar.moneyflow.repository.MasterCodeRepository;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,9 +23,13 @@ public class MasterCodeService {
         return Collections.unmodifiableList(MasterCodeResponse.listOf(masterCodeRepository.findAll()));
     }
 
-    public MasterCode getMasterCodeById(long id) {
+    public MasterCodeResponse findMasterCode(long id) {
+        return MasterCodeResponse.of(findById(id));
+    }
+
+    private MasterCode findById(Long id) {
         return masterCodeRepository.findById(id)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new EntityNotFoundException("마스터 코드를 찾을 수 없습니다."));
     }
 
     public Long addMasterCode(MasterCodeRequest masterCodeRequest) {
