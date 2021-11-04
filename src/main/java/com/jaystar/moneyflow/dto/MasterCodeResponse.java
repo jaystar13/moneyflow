@@ -19,7 +19,7 @@ public class MasterCodeResponse {
 
     private String codeName;
 
-    private static MasterCodeResponse of(MasterCode masterCode) {
+    public static MasterCodeResponse of(MasterCode masterCode) {
         return new MasterCodeResponse(masterCode.getId(), masterCode.getCode(), masterCode.getCodeName());
     }
 
