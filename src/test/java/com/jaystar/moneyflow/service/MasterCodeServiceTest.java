@@ -5,12 +5,13 @@ import com.jaystar.moneyflow.dto.MasterCodeRequest;
 import com.jaystar.moneyflow.dto.MasterCodeResponse;
 import com.jaystar.moneyflow.repository.MasterCodeRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,18 +33,18 @@ class MasterCodeServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    @DisplayName("모든 마스터 코드를 조회한다.")
     @Test
-    void getMasterCodes() {
-        List<MasterCode> mockMasterCodes = new ArrayList<>();
-        mockMasterCodes.add(new MasterCode(1L, "123", "code"));
+    void findAllMasterCodes() {
+        MasterCode masterCode1 = new MasterCode(1L, "123", "master code1");
+        MasterCode masterCode2 = new MasterCode(2L, "B", "master code2");
 
-        given(masterCodeRepository.findAll()).willReturn(mockMasterCodes);
+        given(masterCodeRepository.findAll()).willReturn(Arrays.asList(masterCode1, masterCode2));
 
-        List<MasterCodeResponse> masterCodeResponses = masterCodeService.findAllMasterCodes();
-        MasterCodeResponse masterCodeResponse = masterCodeResponses.get(0);
+        List<MasterCodeResponse> masterCodes = masterCodeService.findAllMasterCodes();
 
-        assertThat(masterCodeResponse.getCode()).isEqualTo("123");
-        assertThat(masterCodeResponse.getCodeName()).isEqualTo("code");
+        assertThat(masterCodes).extracting("codeName")
+                .containsExactly(masterCode1.getCodeName(), masterCode2.getCodeName());
     }
 
     @Test
