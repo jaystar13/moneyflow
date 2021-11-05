@@ -20,8 +20,9 @@ class MasterCodeTest {
     }
 
     @Test
-    void updateCodeName() {
-        masterCode.modifyCodeName("UPDATE_CODE");
+    void update() {
+        masterCode.update(new MasterCode(1L, "A1", "UPDATE_CODE"));
+
         assertThat(masterCode.getCodeName()).isEqualTo("UPDATE_CODE");
     }
 }
