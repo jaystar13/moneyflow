@@ -13,7 +13,7 @@ public class MasterCode {
     @Setter
     private Long id;
 
-    private String code;
+    private final String code;
 
     private String codeName;
 
@@ -24,7 +24,9 @@ public class MasterCode {
         this.codeName = codeName;
     }
 
-    public void modifyCodeName(String codeName) {
-        this.codeName = codeName;
+    public MasterCode update(MasterCode masterCodeRequest) {
+        this.codeName = masterCodeRequest.codeName;
+
+        return this;
     }
 }

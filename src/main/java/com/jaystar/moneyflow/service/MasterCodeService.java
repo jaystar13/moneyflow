@@ -27,21 +27,21 @@ public class MasterCodeService {
         return MasterCodeResponse.of(findById(id));
     }
 
-    private MasterCode findById(Long id) {
-        return masterCodeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("마스터 코드를 찾을 수 없습니다."));
-    }
-
     public Long add(MasterCodeRequest masterCodeRequest) {
         MasterCode masterCode = masterCodeRepository.save(masterCodeRequest.toMasterCode());
         return masterCode.getId();
     }
 
-    public MasterCode updateMasterCodeName(long id, String masterCodeName) {
-        MasterCode masterCode = masterCodeRepository.findById(id).orElseThrow();
+    public MasterCode update(long id, MasterCodeRequest masterCodeRequest) {
+        MasterCode masterCode = findById(id);
 
-        masterCode.modifyCodeName(masterCodeName);
+        masterCode.update(masterCodeRequest.toMasterCode());
 
         return masterCode;
+    }
+
+    private MasterCode findById(Long id) {
+        return masterCodeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("마스터 코드를 찾을 수 없습니다."));
     }
 }
