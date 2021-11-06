@@ -18,6 +18,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -56,9 +57,30 @@ public class MaterCodeControllerTest {
 
         given(masterCodeService.findAllMasterCodes()).willReturn(masterCodeResponses);
 
-        mvc.perform(get("/master-codes"))
+        mvc.perform(get("/master-codes")
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("master code2")));
+                .andExpect(content().string(containsString("master code2")))
+                .andDo(print());
+    }
+
+    @DisplayName("특정 단어가 포함된 마스터 코드를 조회한다.")
+    @Test
+    void findByCodeNameContain() throws Exception {
+        List<MasterCodeResponse> masterCodeResponses = Arrays.asList(
+                new MasterCodeResponse(1L, "A", "CODE-A"),
+                new MasterCodeResponse(2L, "B", "CODE-B"),
+                new MasterCodeResponse(3L, "C", "CODE-C")
+        );
+
+        given(masterCodeService.findByCodeNameContaining(anyString())).willReturn(masterCodeResponses);
+
+        mvc.perform(get("/master-codes/contain-word")
+                        .param("contain", "A")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print())
+        ;
     }
 
     @DisplayName("마스터코드를 추가한다.")
