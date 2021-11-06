@@ -20,8 +20,14 @@ public class MaterCodeController {
     }
 
     @GetMapping
-    public List<MasterCodeResponse> list() {
-        return masterCodeService.findAllMasterCodes();
+    public ResponseEntity<List<MasterCodeResponse>> list() {
+        return ResponseEntity.ok(masterCodeService.findAllMasterCodes());
+    }
+
+    @GetMapping("/contain-word")
+    public ResponseEntity<List<MasterCodeResponse>> findByCodeNameContaining(@RequestParam String contain) {
+        List<MasterCodeResponse> masterCodeResponses = masterCodeService.findByCodeNameContaining(contain);
+        return ResponseEntity.ok(masterCodeResponses);
     }
 
     @PostMapping
