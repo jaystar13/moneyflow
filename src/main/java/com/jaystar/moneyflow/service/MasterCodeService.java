@@ -27,6 +27,11 @@ public class MasterCodeService {
         return MasterCodeResponse.of(findById(id));
     }
 
+    public List<MasterCodeResponse> findByCodeNameContaining(String codeName) {
+        return Collections.unmodifiableList(
+                MasterCodeResponse.listOf(masterCodeRepository.findByCodeNameContaining(codeName)));
+    }
+
     public Long add(MasterCodeRequest masterCodeRequest) {
         MasterCode masterCode = masterCodeRepository.save(masterCodeRequest.toMasterCode());
         return masterCode.getId();

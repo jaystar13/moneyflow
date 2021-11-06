@@ -12,5 +12,7 @@ public interface MasterCodeRepository {
 
     Optional<MasterCode> findById(Long id);
 
+    List<MasterCode> findByCodeNameContaining(String contain);
+
     <S extends MasterCode> S save(S entity);
 }
