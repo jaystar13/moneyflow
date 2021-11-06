@@ -1,21 +1,28 @@
 package com.jaystar.moneyflow.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jaystar.moneyflow.dto.MasterCodeRequest;
 import com.jaystar.moneyflow.dto.MasterCodeResponse;
 import com.jaystar.moneyflow.service.MasterCodeService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(MaterCodeController.class)
 public class MaterCodeControllerTest {
@@ -25,8 +32,23 @@ public class MaterCodeControllerTest {
     @MockBean
     private MasterCodeService masterCodeService;
 
+    private MasterCodeRequest masterCodeRequest;
+
+    private ObjectMapper objectMapper;
+
+    @BeforeEach
+    void setUp() {
+        masterCodeRequest = MasterCodeRequest.builder()
+                .code("A12")
+                .codeName("마스터코드 원")
+                .build();
+
+        objectMapper = new ObjectMapper();
+    }
+
+    @DisplayName("마스터 코드 전체를 조회한다.")
     @Test
-    void getMasterCodes() throws Exception {
+    void findAllMasterCodes() throws Exception {
         List<MasterCodeResponse> masterCodeResponses = Arrays.asList(
                 new MasterCodeResponse(1L, "AAA", "master code1"),
                 new MasterCodeResponse(2L, "BBB", "master code2")
@@ -39,8 +61,17 @@ public class MaterCodeControllerTest {
                 .andExpect(content().string(containsString("master code2")));
     }
 
+    @DisplayName("마스터코드를 추가한다.")
     @Test
-    void addMasterCode() {
+    void addMasterCode() throws Exception {
+        given(masterCodeService.add(any())).willReturn(1L);
 
+        mvc.perform(post("/master-codes")
+                        .header("authorization", "Bearer ADMIN_TOKEN")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(masterCodeRequest)))
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", "/master-codes/1"))
+                .andDo(print());
     }
 }
