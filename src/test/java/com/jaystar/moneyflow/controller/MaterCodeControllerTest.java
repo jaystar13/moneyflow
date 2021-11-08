@@ -20,8 +20,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -94,6 +93,22 @@ public class MaterCodeControllerTest {
                         .content(objectMapper.writeValueAsString(masterCodeRequest)))
                 .andExpect(status().isCreated())
                 .andExpect(header().string("Location", "/master-codes/1"))
+                .andDo(print());
+    }
+
+    @DisplayName("마스터코드를 수정한다.")
+    @Test
+    void updateMasterCode() throws Exception {
+        MasterCodeRequest updateMasterCodeRequest = MasterCodeRequest.builder()
+                .code("A")
+                .codeName("update master code")
+                .build();
+
+        mvc.perform(put("/master-codes/{id}", 1L)
+                        .header("authorization", "Bearer ADMIN_TOKEN")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updateMasterCodeRequest)))
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 }
