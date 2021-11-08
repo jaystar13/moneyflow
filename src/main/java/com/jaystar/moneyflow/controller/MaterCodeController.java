@@ -35,4 +35,11 @@ public class MaterCodeController {
         Long saveId = masterCodeService.add(masterCodeRequest);
         return ResponseEntity.created(URI.create("/master-codes/" + saveId)).build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateMasterCode(@PathVariable Long id,
+                                                 @RequestBody MasterCodeRequest masterCodeRequest) {
+        masterCodeService.update(id, masterCodeRequest);
+        return ResponseEntity.ok().build();
+    }
 }
