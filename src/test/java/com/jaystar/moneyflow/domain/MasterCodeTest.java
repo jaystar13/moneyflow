@@ -10,19 +10,19 @@ class MasterCodeTest {
 
     @BeforeEach
     void setup() {
-        masterCode = new MasterCode(1L, "A123", "CODE");
+        masterCode = new MasterCode(1L, new CodeItem("A123", "CODE"));
     }
 
     @Test
     void find() {
-        assertThat(masterCode.getCode()).isEqualTo("A123");
-        assertThat(masterCode.getCodeName()).isEqualTo("CODE");
+        assertThat(masterCode.code()).isEqualTo("A123");
+        assertThat(masterCode.codeName()).isEqualTo("CODE");
     }
 
     @Test
     void update() {
-        masterCode.update(new MasterCode(1L, "A1", "UPDATE_CODE"));
+        masterCode.update(new MasterCode(1L, new CodeItem("A1", "UPDATE_CODE")));
 
-        assertThat(masterCode.getCodeName()).isEqualTo("UPDATE_CODE");
+        assertThat(masterCode.codeName()).isEqualTo("UPDATE_CODE");
     }
 }

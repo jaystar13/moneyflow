@@ -1,5 +1,6 @@
 package com.jaystar.moneyflow.service;
 
+import com.jaystar.moneyflow.domain.CodeItem;
 import com.jaystar.moneyflow.domain.MasterCode;
 import com.jaystar.moneyflow.dto.MasterCodeRequest;
 import com.jaystar.moneyflow.dto.MasterCodeResponse;
@@ -40,8 +41,8 @@ class MasterCodeServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        masterCode1 = new MasterCode(1L, "123", "master code1");
-        masterCode2 = new MasterCode(2L, "B", "master code2");
+        masterCode1 = new MasterCode(1L, new CodeItem("123", "master code1"));
+        masterCode2 = new MasterCode(2L, new CodeItem("B", "master code2"));
 
         masterCodeRequest = MasterCodeRequest.builder()
                 .code("A")
@@ -57,7 +58,7 @@ class MasterCodeServiceTest {
         List<MasterCodeResponse> masterCodes = masterCodeService.findAllMasterCodes();
 
         assertThat(masterCodes).extracting("codeName")
-                .containsExactly(masterCode1.getCodeName(), masterCode2.getCodeName());
+                .containsExactly(masterCode1.codeName(), masterCode2.codeName());
     }
 
     @DisplayName("마스터코드를 한건 조회한다.")
@@ -68,8 +69,8 @@ class MasterCodeServiceTest {
 
         MasterCodeResponse masterCodeResponse = masterCodeService.findMasterCode(1L);
 
-        assertThat(masterCodeResponse.getCode()).isEqualTo(masterCode1.getCode());
-        assertThat(masterCodeResponse.getCodeName()).isEqualTo(masterCode1.getCodeName());
+        assertThat(masterCodeResponse.getCode()).isEqualTo(masterCode1.code());
+        assertThat(masterCodeResponse.getCodeName()).isEqualTo(masterCode1.codeName());
     }
 
     @DisplayName("단일 건 조회시 해당 ID가 존재하지 않으면 예외를 발생한다.")
@@ -108,6 +109,6 @@ class MasterCodeServiceTest {
 
         masterCodeService.update(1L, masterCodeRequest);
 
-        assertThat(masterCode1.getCodeName()).isEqualTo(masterCodeRequest.getCodeName());
+        assertThat(masterCode1.codeName()).isEqualTo(masterCodeRequest.getCodeName());
     }
 }
