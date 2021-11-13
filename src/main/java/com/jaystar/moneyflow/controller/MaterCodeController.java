@@ -42,4 +42,16 @@ public class MaterCodeController {
         masterCodeService.update(id, masterCodeRequest);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMasterCode(@PathVariable Long id) {
+        masterCodeService.deleteMasterCode(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping()
+    public ResponseEntity<Void> deleteAllMasterCodes() {
+        masterCodeService.deleteAllMasterCodes();
+        return ResponseEntity.noContent().build();
+    }
 }
