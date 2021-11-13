@@ -111,4 +111,20 @@ class MasterCodeServiceTest {
 
         assertThat(masterCode1.codeName()).isEqualTo(masterCodeRequest.getCodeName());
     }
+
+    @DisplayName("마스터 코드를 삭제한다")
+    @Test
+    void deleteMasterCode() {
+        masterCodeService.deleteMasterCode(1L);
+
+        verify(masterCodeRepository).deleteById(1L);
+    }
+
+    @DisplayName("모든 마스터 코드를 삭제한다")
+    @Test
+    void deleteAllMasterCodes() {
+        masterCodeService.deleteAllMasterCodes();
+
+        verify(masterCodeRepository).deleteAll();
+    }
 }
