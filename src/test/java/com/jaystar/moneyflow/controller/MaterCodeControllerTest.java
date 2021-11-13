@@ -20,12 +20,13 @@ import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(MaterCodeController.class)
-public class MaterCodeControllerTest {
+class MaterCodeControllerTest {
     @Autowired
     private MockMvc mvc;
 
@@ -109,6 +110,28 @@ public class MaterCodeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateMasterCodeRequest)))
                 .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("마스터 코드를 삭제한다.")
+    @Test
+    void deleteMasterCode() throws Exception {
+        willDoNothing().given(masterCodeService).deleteMasterCode(any());
+
+        mvc.perform(delete("/master-codes/{id}", 1L)
+                        .header("authorization", "Bearer ADMIN_TOKEN"))
+                .andExpect(status().isNoContent())
+                .andDo(print());
+    }
+
+    @DisplayName("모든 마스터 코드를 삭제한다.")
+    @Test
+    void deleteAllMasterCodes() throws Exception {
+        willDoNothing().given(masterCodeService).deleteAllMasterCodes();
+
+        mvc.perform(delete("/master-codes/")
+                        .header("authorization", "Bearer ADMIN_TOKEN"))
+                .andExpect(status().isNoContent())
                 .andDo(print());
     }
 }
