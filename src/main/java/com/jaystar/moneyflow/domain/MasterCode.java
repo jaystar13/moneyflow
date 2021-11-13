@@ -1,32 +1,43 @@
 package com.jaystar.moneyflow.domain;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
 
+import javax.persistence.Embedded;
 import javax.persistence.Id;
 
-@Getter
 public class MasterCode {
 
     @Id
-    @Setter
     private Long id;
 
-    private final String code;
-
-    private String codeName;
+    @Embedded
+    private CodeItem codeItem;
 
     @Builder
-    public MasterCode(Long id, String code, String codeName) {
+    public MasterCode(Long id, CodeItem codeItem) {
         this.id = id;
-        this.code = code;
-        this.codeName = codeName;
+        this.codeItem = codeItem;
     }
 
     public MasterCode update(MasterCode masterCodeRequest) {
-        this.codeName = masterCodeRequest.codeName;
+        this.codeItem = masterCodeRequest.codeItem;
 
         return this;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public String code() {
+        return codeItem.getCode();
+    }
+
+    public String codeName() {
+        return codeItem.getCodeName();
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

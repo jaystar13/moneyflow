@@ -20,7 +20,7 @@ public class MasterCodeResponse {
     private String codeName;
 
     public static MasterCodeResponse of(MasterCode masterCode) {
-        return new MasterCodeResponse(masterCode.getId(), masterCode.getCode(), masterCode.getCodeName());
+        return new MasterCodeResponse(masterCode.getId(), masterCode.code(), masterCode.codeName());
     }
 
     public static List<MasterCodeResponse> listOf(List<MasterCode> masterCodes) {

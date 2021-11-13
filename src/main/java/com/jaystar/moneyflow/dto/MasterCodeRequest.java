@@ -1,5 +1,6 @@
 package com.jaystar.moneyflow.dto;
 
+import com.jaystar.moneyflow.domain.CodeItem;
 import com.jaystar.moneyflow.domain.MasterCode;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,8 +22,11 @@ public class MasterCodeRequest {
 
     public MasterCode toMasterCode() {
         return MasterCode.builder()
-                .code(code)
-                .codeName(codeName)
+                .codeItem(toCodeItem())
                 .build();
+    }
+
+    public CodeItem toCodeItem() {
+        return new CodeItem(code, codeName);
     }
 }
