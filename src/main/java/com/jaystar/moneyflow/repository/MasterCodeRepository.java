@@ -15,4 +15,8 @@ public interface MasterCodeRepository {
     List<MasterCode> findByCodeNameContaining(String contain);
 
     <S extends MasterCode> S save(S entity);
+
+    void deleteById(Long id);
+
+    void deleteAll();
 }

@@ -49,4 +49,12 @@ public class MasterCodeService {
         return masterCodeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("마스터 코드를 찾을 수 없습니다."));
     }
+
+    public void deleteMasterCode(Long id) {
+        masterCodeRepository.deleteById(id);
+    }
+
+    public void deleteAllMasterCodes() {
+        masterCodeRepository.deleteAll();
+    }
 }
