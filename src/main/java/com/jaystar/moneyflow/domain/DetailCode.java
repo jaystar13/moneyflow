@@ -1,27 +1,36 @@
 package com.jaystar.moneyflow.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
 
-@AllArgsConstructor
 public class DetailCode {
 
-    @Getter
-    private long id;
+    private Long id;
 
-    private String masterCode;
+    private MasterCode masterCode;
 
-    @Getter
-    private final String detailCode;
+    private CodeItem codeItem;
 
-    @Getter
-    private String detailCodeName;
-
-    public void modifyDetailCodeName(String detailCodeName) {
-        this.detailCodeName = detailCodeName;
+    @Builder
+    public DetailCode(Long id, MasterCode masterCode, CodeItem codeItem) {
+        this.id = id;
+        this.masterCode = masterCode;
+        this.codeItem = codeItem;
     }
 
     public String getMasterCode() {
-        return this.masterCode;
+        return masterCode.code();
+    }
+
+    public String code() {
+        return codeItem.getCode();
+    }
+
+    public String codeName() {
+        return codeItem.getCodeName();
+    }
+
+    public DetailCode update(DetailCode requestDetailCode) {
+        this.codeItem = requestDetailCode.codeItem;
+        return this;
     }
 }
