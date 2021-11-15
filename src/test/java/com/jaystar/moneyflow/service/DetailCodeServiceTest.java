@@ -1,18 +1,10 @@
 package com.jaystar.moneyflow.service;
 
-import com.jaystar.moneyflow.domain.DetailCode;
 import com.jaystar.moneyflow.repository.DetailCodeRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
 
 class DetailCodeServiceTest {
     @InjectMocks
@@ -25,7 +17,7 @@ class DetailCodeServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-
+    /*
     @Test
     void find() {
         List<DetailCode> mockDetailCodes = new ArrayList<>();
@@ -50,4 +42,5 @@ class DetailCodeServiceTest {
 
         assertThat(updated.getDetailCodeName()).isEqualTo("updated_detail_code");
     }
+    */
 }
