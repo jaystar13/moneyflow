@@ -19,7 +19,7 @@ public class DetailCodeService {
     public DetailCode modifyDetailCodeName(long id, String detailCodeName) {
         DetailCode detailCode = detailCodeRepository.findById(id);
 
-        detailCode.modifyDetailCodeName(detailCodeName);
+        //detailCode.modifyDetailCodeName(detailCodeName);
 
         return detailCode;
     }
