@@ -3,14 +3,13 @@ package com.jaystar.moneyflow.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Setter
 @Getter
 public class Code {
-    @Id
+
     private Long id;
 
     private String name;
