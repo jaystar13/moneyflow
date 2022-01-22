@@ -11,8 +11,14 @@
 - [ ] 월별입출금액입력 : 월별로 수입 또는 지출금액을 입력
 - [ ] 월별입출금액현황 : 월별로 입력한 수입/지출금액에 대한 현황 화면
 
-## 기술 스펙
+## 도메인 클래스다이어그램
+![img.png](static/images/domain_classdiagram.png)
 
+## ERD
+![img.png](static/images/domain_erdiagram.png)
+
+## 기술 스펙
+### Back-End
 - java11
-- 스프링부트
+- springboot
 - jpa
