@@ -1,5 +1,7 @@
 package com.jaystar.moneyflow.domain;
 
+import com.jaystar.moneyflow.code.domain.Code;
+import com.jaystar.moneyflow.inoutitem.domain.InoutItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

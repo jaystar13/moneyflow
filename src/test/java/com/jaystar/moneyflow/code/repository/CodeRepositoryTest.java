@@ -1,6 +1,6 @@
-package com.jaystar.moneyflow.repository;
+package com.jaystar.moneyflow.code.repository;
 
-import com.jaystar.moneyflow.domain.Code;
+import com.jaystar.moneyflow.code.domain.Code;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

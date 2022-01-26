@@ -1,4 +1,4 @@
-package com.jaystar.moneyflow.domain;
+package com.jaystar.moneyflow.code.domain;
 
 import lombok.Getter;
 import lombok.Setter;

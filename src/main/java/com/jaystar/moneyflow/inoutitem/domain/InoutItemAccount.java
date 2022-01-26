@@ -1,5 +1,6 @@
-package com.jaystar.moneyflow.domain;
+package com.jaystar.moneyflow.inoutitem.domain;
 
+import com.jaystar.moneyflow.account.domain.Account;
 import lombok.Getter;
 import lombok.Setter;
 

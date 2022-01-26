@@ -1,5 +1,6 @@
-package com.jaystar.moneyflow.domain;
+package com.jaystar.moneyflow.monthlyinout.domain;
 
+import com.jaystar.moneyflow.inoutitem.domain.InoutItem;
 import lombok.Getter;
 import lombok.Setter;
 

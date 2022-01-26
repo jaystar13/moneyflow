@@ -1,4 +1,4 @@
-package com.jaystar.moneyflow.domain;
+package com.jaystar.moneyflow.code.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
