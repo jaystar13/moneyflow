@@ -1,0 +1,63 @@
+package com.jaystar.moneyflow.code.service;
+
+import com.jaystar.moneyflow.code.domain.Code;
+import com.jaystar.moneyflow.code.dto.CodeResponse;
+import com.jaystar.moneyflow.code.repository.CodeRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+public class CodeServiceTest {
+
+    private CodeService codeService;
+
+    @Mock
+    private CodeRepository codeRepository;
+
+    @BeforeEach
+    void setUp() {
+        codeService = new CodeService(codeRepository);
+    }
+
+    @DisplayName("모든 코드를 조회한다.")
+    @Test
+    void findAllCodes() {
+        Code code1 = new Code();
+        code1.setName("code1");
+
+        Code code2 = new Code();
+        code2.setName("code2");
+
+        when(codeRepository.findAll()).thenReturn(Arrays.asList(code1, code2));
+
+        List<CodeResponse> codes = codeService.findAllCodes();
+
+        assertThat(codes).extracting("name")
+                .containsExactly(code1.getName(), code2.getName());
+    }
+
+    @DisplayName("단일 코드를 조회한다.")
+    @Test
+    void findCode() {
+        Code code = new Code();
+        code.setName("code1");
+
+        when(codeRepository.findById(anyLong())).thenReturn(Optional.of(code));
+
+        CodeResponse codeResponse = codeService.findCode(1L);
+
+        assertThat(codeResponse.getName()).isEqualTo(code.getName());
+    }
+}
