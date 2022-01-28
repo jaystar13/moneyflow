@@ -1,8 +1,10 @@
 package com.jaystar.moneyflow.code.service;
 
 import com.jaystar.moneyflow.code.domain.Code;
+import com.jaystar.moneyflow.code.dto.CodeRequest;
 import com.jaystar.moneyflow.code.dto.CodeResponse;
 import com.jaystar.moneyflow.code.repository.CodeRepository;
+import com.jaystar.moneyflow.common.exception.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +17,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,5 +64,28 @@ public class CodeServiceTest {
         CodeResponse codeResponse = codeService.findCode(1L);
 
         assertThat(codeResponse.getName()).isEqualTo(code.getName());
+    }
+
+    @DisplayName("단일 코드 조회시 해당 ID가 없으면 예외 처리한다.")
+    @Test
+    void findCodeException() {
+        when(codeRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> codeService.findCode(0L))
+                .isInstanceOf(EntityNotFoundException.class);
+    }
+
+    @DisplayName("코드를 생성한다.")
+    @Test
+    void save() {
+        Code savedCode = new Code();
+        when(codeRepository.save(any())).thenReturn(savedCode);
+
+        CodeRequest codeRequest = CodeRequest.builder()
+                .name("테스트")
+                .build();
+        codeService.save(codeRequest);
+
+        verify(codeRepository).save(any());
     }
 }
