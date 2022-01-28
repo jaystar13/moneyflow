@@ -1,6 +1,7 @@
 package com.jaystar.moneyflow.code.service;
 
 import com.jaystar.moneyflow.code.domain.Code;
+import com.jaystar.moneyflow.code.dto.CodeRequest;
 import com.jaystar.moneyflow.code.dto.CodeResponse;
 import com.jaystar.moneyflow.code.repository.CodeRepository;
 import com.jaystar.moneyflow.common.exception.EntityNotFoundException;
@@ -30,5 +31,13 @@ public class CodeService {
     private Code findById(Long id) {
         return codeRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.CODE_NOT_FOUND));
+    }
+
+    @Transactional
+    public Long save(CodeRequest codeRequest) {
+        Code code = codeRequest.toCode();
+        codeRepository.save(code);
+
+        return code.getId();
     }
 }
