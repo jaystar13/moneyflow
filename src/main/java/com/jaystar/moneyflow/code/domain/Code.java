@@ -1,5 +1,6 @@
 package com.jaystar.moneyflow.code.domain;
 
+import com.jaystar.moneyflow.common.domain.BaseTimeEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +12,7 @@ import java.util.Objects;
 @Setter
 @Getter
 @Entity
-public class Code {
+public class Code extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
