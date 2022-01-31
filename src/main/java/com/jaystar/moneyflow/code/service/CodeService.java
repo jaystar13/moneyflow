@@ -40,4 +40,12 @@ public class CodeService {
 
         return code.getId();
     }
+
+    @Transactional
+    public CodeResponse updateCode(long id, CodeRequest codeRequest) {
+        Code code = findById(id);
+        code.update(codeRequest.toCode());
+
+        return CodeResponse.of(code);
+    }
 }

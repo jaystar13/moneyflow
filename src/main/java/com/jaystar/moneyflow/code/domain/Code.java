@@ -33,6 +33,12 @@ public class Code extends BaseTimeEntity {
         child.setParent(this);
     }
 
+    public Code update(Code codeRequest) {
+        this.name = codeRequest.getName();
+
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
