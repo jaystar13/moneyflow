@@ -18,14 +18,12 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class CodeServiceTest {
-
+class CodeServiceTest {
     private CodeService codeService;
 
     @Mock
@@ -78,14 +76,26 @@ public class CodeServiceTest {
     @DisplayName("코드를 생성한다.")
     @Test
     void save() {
-        Code savedCode = new Code();
-        when(codeRepository.save(any())).thenReturn(savedCode);
-
         CodeRequest codeRequest = CodeRequest.builder()
                 .name("테스트")
                 .build();
         codeService.save(codeRequest);
 
-        verify(codeRepository).save(any());
+        verify(codeRepository).save(codeRequest.toCode());
+    }
+
+    @DisplayName("코드명을 수정한다.")
+    @Test
+    void update() {
+        Code code = new Code();
+        code.setName("테스트");
+        when(codeRepository.findById(anyLong())).thenReturn(Optional.of(code));
+
+        CodeRequest codeRequest = CodeRequest.builder()
+                .name("테스트_update")
+                .build();
+        codeService.updateCode(1L, codeRequest);
+
+        assertThat(code.getName()).isEqualTo(codeRequest.getName());
     }
 }
