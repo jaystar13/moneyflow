@@ -18,6 +18,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -97,5 +98,23 @@ class CodeServiceTest {
         codeService.updateCode(1L, codeRequest);
 
         assertThat(code.getName()).isEqualTo(codeRequest.getName());
+    }
+
+    @DisplayName("코드를 삭제한다.")
+    @Test
+    void delete() {
+        codeService.deleteCode(1L);
+
+        verify(codeRepository).deleteById(1L);
+    }
+
+    @DisplayName("코드명으로 조회한다.")
+    @Test
+    void containing() {
+        when(codeRepository.findByNameContaining("테스")).thenReturn(anyList());
+
+        List<CodeResponse> codeResponses = codeService.findByNameContaining("테스");
+
+        assertThat(codeResponses).isNotNull();
     }
 }
