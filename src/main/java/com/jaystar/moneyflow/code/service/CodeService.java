@@ -42,10 +42,21 @@ public class CodeService {
     }
 
     @Transactional
-    public CodeResponse updateCode(long id, CodeRequest codeRequest) {
+    public CodeResponse updateCode(Long id, CodeRequest codeRequest) {
         Code code = findById(id);
         code.update(codeRequest.toCode());
 
         return CodeResponse.of(code);
+    }
+
+    @Transactional
+    public void deleteCode(Long id) {
+        codeRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<CodeResponse> findByNameContaining(String name) {
+        List<Code> codesContainingName = codeRepository.findByNameContaining(name);
+        return CodeResponse.listOf(codesContainingName);
     }
 }
