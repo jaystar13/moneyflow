@@ -115,4 +115,27 @@ public class CodeRepositoryTest {
         assertThat(codeRepository.findById(code.getId()).get().getName()).isEqualTo("코드100_update");
     }
 
+    @DisplayName("코드명으로 조회한다.")
+    @Test
+    void findByNameContaining() {
+        //given
+        Code code1 = new Code();
+        code1.setName("TEST_1");
+        codeRepository.save(code1);
+
+        Code code2 = new Code();
+        code2.setName("TEST_2");
+        codeRepository.save(code2);
+
+        Code code3 = new Code();
+        code3.setName("EST_3");
+        codeRepository.save(code3);
+
+        //when
+        Iterable<Code> codes = codeRepository.findByNameContaining("TEST");
+
+        //then
+        assertThat(codes).containsExactly(code1, code2);
+    }
+
 }
