@@ -22,6 +22,10 @@ public class CodeType {
     @OneToMany(mappedBy = "codeType")
     private List<Code> code = new ArrayList<>();
 
+    public void update(CodeType requestCodeType) {
+        this.name = requestCodeType.name;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
