@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Setter
@@ -22,19 +20,12 @@ public class Code extends BaseTimeEntity {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "PARENT_ID")
-    private Code parent;
-
-    @OneToMany(mappedBy = "parent")
-    private List<Code> child = new ArrayList<>();
-
-    public void addChildCode(Code child) {
-        this.child.add(child);
-        child.setParent(this);
-    }
+    @JoinColumn(name = "CODE_TYPE_ID")
+    private CodeType codeType;
 
     public Code update(Code codeRequest) {
         this.name = codeRequest.getName();
+        this.codeType = codeRequest.getCodeType();
 
         return this;
     }
@@ -44,14 +35,11 @@ public class Code extends BaseTimeEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Code code = (Code) o;
-        return Objects.equals(id, code.id) &&
-                Objects.equals(name, code.name) &&
-                Objects.equals(parent, code.parent) &&
-                Objects.equals(child, code.child);
+        return Objects.equals(id, code.id) && Objects.equals(name, code.name) && Objects.equals(codeType, code.codeType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, parent, child);
+        return Objects.hash(id, name, codeType);
     }
 }
