@@ -23,6 +23,16 @@ public class Code extends BaseTimeEntity {
     @JoinColumn(name = "CODE_TYPE_ID")
     private CodeType codeType;
 
+    public void setCodeType(CodeType codeType) {
+        removeCodeIfUpdate(this.codeType);
+    }
+
+    private void removeCodeIfUpdate(CodeType codeType) {
+        if (codeType != null) {
+            codeType.removeCode(this);
+        }
+    }
+
     public Code update(Code codeRequest) {
         this.name = codeRequest.getName();
         this.codeType = codeRequest.getCodeType();

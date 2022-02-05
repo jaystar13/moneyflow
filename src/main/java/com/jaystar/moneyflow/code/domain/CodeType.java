@@ -20,12 +20,16 @@ public class CodeType {
     private String name;
 
     @OneToMany(mappedBy = "codeType")
-    private List<Code> code = new ArrayList<>();
+    private List<Code> codes = new ArrayList<>();
 
     public void update(CodeType requestCodeType) {
         this.name = requestCodeType.name;
     }
-    
+
+    public void removeCode(Code code) {
+        codes.remove(code);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
