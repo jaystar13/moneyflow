@@ -1,0 +1,49 @@
+package com.jaystar.moneyflow.code.repository;
+
+import com.jaystar.moneyflow.code.domain.CodeType;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@DataJpaTest
+class CodeTypeRepositoryTest {
+    @Autowired
+    CodeTypeRepository codeTypeRepository;
+
+    @DisplayName("코드타입을 저장한다.")
+    @Test
+    void save() {
+        CodeType codeType = new CodeType();
+
+        CodeType saved = codeTypeRepository.save(codeType);
+
+        assertThat(saved).isEqualTo(codeType);
+    }
+
+    @DisplayName("코드타입을 수정한다.")
+    @Test
+    void update() {
+        CodeType codeType = new CodeType();
+        codeType.setName("코드타입1");
+
+        CodeType updatingCodeType = new CodeType();
+        updatingCodeType.setName("업데이트 코드타입1");
+
+        codeType.update(updatingCodeType);
+
+        assertThat(codeType.getName()).isEqualTo(updatingCodeType.getName());
+    }
+
+    @DisplayName("코드타입이 삭제될 경우 코드도 삭제한다.")
+    @Test
+    void delete() {
+    }
+
+    @DisplayName("코드타입이 코드 목록을 전부 포함하는지 확인한다.")
+    @Test
+    void containCodes() {
+    }
+}
