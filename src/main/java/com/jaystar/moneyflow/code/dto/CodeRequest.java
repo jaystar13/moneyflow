@@ -22,7 +22,6 @@ public class CodeRequest {
     public Code toCode() {
         Code code = new Code();
         code.setName(this.name);
-        code.setParent(this.parent.toCode());
 
         return code;
     }
