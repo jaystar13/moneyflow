@@ -3,14 +3,24 @@ package com.jaystar.moneyflow.code.domain;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Setter
 @Getter
+@Entity
 public class CodeType {
+    @Id
+    @GeneratedValue
+    @Column(name = "CODE_TYPE_ID")
     private Long id;
 
     private String name;
+
+    @OneToMany(mappedBy = "codeType")
+    private List<Code> code = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
