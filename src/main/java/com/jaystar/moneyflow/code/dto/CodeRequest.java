@@ -11,14 +11,18 @@ import lombok.NoArgsConstructor;
 public class CodeRequest {
     private String name;
 
+    private CodeRequest parent;
+
     @Builder
-    public CodeRequest(String name) {
+    public CodeRequest(String name, CodeRequest parent) {
         this.name = name;
+        this.parent = parent;
     }
 
     public Code toCode() {
         Code code = new Code();
         code.setName(this.name);
+        code.setParent(this.parent.toCode());
 
         return code;
     }
