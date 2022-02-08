@@ -16,7 +16,9 @@ class CodeTypeRepositoryTest {
     @DisplayName("코드타입을 저장한다.")
     @Test
     void save() {
-        CodeType codeType = new CodeType();
+        CodeType codeType = CodeType.builder()
+                .name("코드타입")
+                .build();
 
         CodeType saved = codeTypeRepository.save(codeType);
 
@@ -26,11 +28,13 @@ class CodeTypeRepositoryTest {
     @DisplayName("코드타입을 수정한다.")
     @Test
     void update() {
-        CodeType codeType = new CodeType();
-        codeType.setName("코드타입1");
+        CodeType codeType = CodeType.builder()
+                .name("코드타입1")
+                .build();
 
-        CodeType updatingCodeType = new CodeType();
-        updatingCodeType.setName("업데이트 코드타입1");
+        CodeType updatingCodeType = CodeType.builder()
+                .name("업데이트 코드타입1")
+                .build();
 
         codeType.update(updatingCodeType);
 

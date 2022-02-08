@@ -1,14 +1,16 @@
 package com.jaystar.moneyflow.code.domain;
 
 import com.jaystar.moneyflow.common.domain.BaseTimeEntity;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
-@Setter
 @Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 public class Code extends BaseTimeEntity {
 
@@ -19,9 +21,16 @@ public class Code extends BaseTimeEntity {
 
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "CODE_TYPE_ID")
     private CodeType codeType;
+
+    @Builder
+    public Code(Long id, String name, CodeType codeType) {
+        this.id = id;
+        this.name = name;
+        this.codeType = codeType;
+    }
 
     public void setCodeType(CodeType codeType) {
         removeCodeIfUpdate(this.codeType);

@@ -1,15 +1,17 @@
 package com.jaystar.moneyflow.code.domain;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Setter
 @Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 public class CodeType {
     @Id
@@ -18,9 +20,14 @@ public class CodeType {
     private Long id;
 
     private String name;
-
     @OneToMany(mappedBy = "codeType")
-    private List<Code> codes = new ArrayList<>();
+    private final List<Code> codes = new ArrayList<>();
+
+    @Builder
+    public CodeType(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public void update(CodeType requestCodeType) {
         this.name = requestCodeType.name;

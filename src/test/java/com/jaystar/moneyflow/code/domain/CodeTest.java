@@ -9,8 +9,12 @@ class CodeTest {
     @DisplayName("코드 객체 생성을 확인한다.")
     @Test
     void create() {
-        Code code = new Code();
+        Code code = Code.builder()
+                .name("code")
+                .build();
 
-        Assertions.assertThat(code).isEqualTo(new Code());
+        Assertions.assertThat(code).isEqualTo(Code.builder()
+                .name("code")
+                .build());
     }
 }

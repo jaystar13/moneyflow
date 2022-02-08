@@ -1,11 +1,15 @@
 package com.jaystar.moneyflow.code.repository;
 
 import com.jaystar.moneyflow.code.domain.Code;
+import com.jaystar.moneyflow.code.domain.CodeType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.EmptyResultDataAccessException;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -20,11 +24,17 @@ public class CodeRepositoryTest {
     @Test
     void save() {
         //given
-        Code codeForSave = new Code();
-        codeForSave.setName("코드1");
+        Code codeForSave = Code.builder()
+                .name("코드1")
+                .build();
+
+        CodeType codeType = CodeType.builder()
+                .name("코드타입")
+                .build();
+        codeForSave.setCodeType(codeType);
 
         //when
-        Code savedCode = codeRepository.save(codeForSave);
+        Code savedCode = codeRepository.saveAndFlush(codeForSave);
 
         //then
         assertThat(codeForSave).isEqualTo(savedCode);
@@ -34,54 +44,94 @@ public class CodeRepositoryTest {
     @Test
     void findAll() {
         //given
-        Code code1 = new Code();
-        codeRepository.save(code1);
+        CodeType codeType = CodeType.builder()
+                .name("코드타입")
+                .build();
 
-        Code code2 = new Code();
-        codeRepository.save(code2);
+        Code code1 = Code.builder()
+                .name("TEST_1")
+                .codeType(codeType)
+                .build();
 
-        Code code3 = new Code();
-        codeRepository.save(code3);
+        Code code2 = Code.builder()
+                .name("TEST_2")
+                .codeType(codeType)
+                .build();
+
+        Code code3 = Code.builder()
+                .name("TEST_3")
+                .codeType(codeType)
+                .build();
+
+        List<Code> codes = Arrays.asList(code1, code2, code3);
+        codeRepository.saveAll(codes);
 
         //when
-        Iterable<Code> codes = codeRepository.findAll();
+        List<Code> findingCodes = codeRepository.findAll();
 
         //then
-        assertThat(codes).hasSize(3).contains(code1, code2, code3);
+        assertThat(findingCodes).hasSize(3).contains(code1, code2, code3);
     }
 
     @DisplayName("코드가 삭제된다.")
     @Test
     void delete() {
         //given
-        Code code1 = new Code();
-        codeRepository.save(code1);
+        CodeType codeType = CodeType.builder()
+                .name("코드타입")
+                .build();
 
-        Code code2 = new Code();
-        codeRepository.save(code2);
+        Code code1 = Code.builder()
+                .name("TEST_1")
+                .codeType(codeType)
+                .build();
 
-        Code code3 = new Code();
-        codeRepository.save(code3);
+        Code code2 = Code.builder()
+                .name("TEST_2")
+                .codeType(codeType)
+                .build();
+
+        Code code3 = Code.builder()
+                .name("EST_3")
+                .codeType(codeType)
+                .build();
+
+        List<Code> codes = Arrays.asList(code1, code2, code3);
+        codeRepository.saveAll(codes);
 
         //when
         codeRepository.deleteById(code2.getId());
-        Iterable<Code> codes = codeRepository.findAll();
+        List<Code> findingCodes = codeRepository.findAll();
 
         //then
-        assertThat(codes).hasSize(2).contains(code1, code3);
+        assertThat(findingCodes).hasSize(2).contains(code1, code3);
     }
 
     @DisplayName("모든코드가 삭제된다.")
     @Test
     void deleteAll() {
-        Code code1 = new Code();
-        codeRepository.save(code1);
+        //given
+        CodeType codeType = CodeType.builder()
+                .name("코드타입")
+                .build();
 
-        Code code2 = new Code();
-        codeRepository.save(code2);
+        Code code1 = Code.builder()
+                .name("TEST_1")
+                .codeType(codeType)
+                .build();
 
-        Code code3 = new Code();
-        codeRepository.save(code3);
+        Code code2 = Code.builder()
+                .name("TEST_2")
+                .codeType(codeType)
+                .build();
+
+        Code code3 = Code.builder()
+                .name("EST_3")
+                .codeType(codeType)
+                .build();
+
+        List<Code> codes = Arrays.asList(code1, code2, code3);
+        codeRepository.saveAll(codes);
 
         codeRepository.deleteAll();
 
@@ -102,40 +152,58 @@ public class CodeRepositoryTest {
     @Test
     void update() {
         //given
-        Code codeForUpdate = new Code();
-        codeForUpdate.setName("코드100");
+        Code code = Code.builder()
+                .name("코드100")
+                .codeType(CodeType.builder()
+                        .name("코드타입")
+                        .build())
+                .build();
 
-        Code savedCode = codeRepository.save(codeForUpdate);
+        Code updatingCode = Code.builder()
+                .name("코드100_update")
+                .codeType(CodeType.builder()
+                        .name("코드타입")
+                        .build())
+                .build();
 
         //when
-        Code code = codeRepository.findById(savedCode.getId()).get();
-        code.setName("코드100_update");
+        code.update(updatingCode);
 
         //then
-        assertThat(codeRepository.findById(code.getId()).get().getName()).isEqualTo("코드100_update");
+        assertThat(code.getName()).isEqualTo(updatingCode.getName());
     }
 
     @DisplayName("코드명으로 조회한다.")
     @Test
     void findByNameContaining() {
         //given
-        Code code1 = new Code();
-        code1.setName("TEST_1");
-        codeRepository.save(code1);
+        CodeType codeType = CodeType.builder()
+                .name("코드타입")
+                .build();
 
-        Code code2 = new Code();
-        code2.setName("TEST_2");
-        codeRepository.save(code2);
+        Code code1 = Code.builder()
+                .name("TEST_1")
+                .codeType(codeType)
+                .build();
 
-        Code code3 = new Code();
-        code3.setName("EST_3");
-        codeRepository.save(code3);
+        Code code2 = Code.builder()
+                .name("TEST_2")
+                .codeType(codeType)
+                .build();
+
+        Code code3 = Code.builder()
+                .name("EST_3")
+                .codeType(codeType)
+                .build();
+
+        List<Code> codes = Arrays.asList(code1, code2, code3);
+        codeRepository.saveAll(codes);
 
         //when
-        Iterable<Code> codes = codeRepository.findByNameContaining("TEST");
+        Iterable<Code> findingCodes = codeRepository.findByNameContaining("TEST");
 
         //then
-        assertThat(codes).containsExactly(code1, code2);
+        assertThat(findingCodes).containsExactly(code1, code2);
     }
 
 }

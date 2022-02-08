@@ -1,6 +1,7 @@
 package com.jaystar.moneyflow.code.service;
 
 import com.jaystar.moneyflow.code.domain.Code;
+import com.jaystar.moneyflow.code.domain.CodeType;
 import com.jaystar.moneyflow.code.dto.CodeRequest;
 import com.jaystar.moneyflow.code.dto.CodeResponse;
 import com.jaystar.moneyflow.code.repository.CodeRepository;
@@ -38,11 +39,19 @@ class CodeServiceTest {
     @DisplayName("모든 코드를 조회한다.")
     @Test
     void findAllCodes() {
-        Code code1 = new Code();
-        code1.setName("code1");
+        Code code1 = Code.builder()
+                .name("code1")
+                .codeType(CodeType.builder()
+                        .name("코드타입")
+                        .build())
+                .build();
 
-        Code code2 = new Code();
-        code2.setName("code2");
+        Code code2 = Code.builder()
+                .name("code2")
+                .codeType(CodeType.builder()
+                        .name("코드타입")
+                        .build())
+                .build();
 
         when(codeRepository.findAll()).thenReturn(Arrays.asList(code1, code2));
 
@@ -55,8 +64,12 @@ class CodeServiceTest {
     @DisplayName("단일 코드를 조회한다.")
     @Test
     void findCode() {
-        Code code = new Code();
-        code.setName("code1");
+        Code code = Code.builder()
+                .name("code1")
+                .codeType(CodeType.builder()
+                        .name("코드타입")
+                        .build())
+                .build();
 
         when(codeRepository.findById(anyLong())).thenReturn(Optional.of(code));
 
@@ -88,8 +101,12 @@ class CodeServiceTest {
     @DisplayName("코드명을 수정한다.")
     @Test
     void update() {
-        Code code = new Code();
-        code.setName("테스트");
+        Code code = Code.builder()
+                .name("테스트")
+                .codeType(CodeType.builder()
+                        .name("코드타입")
+                        .build())
+                .build();
         when(codeRepository.findById(anyLong())).thenReturn(Optional.of(code));
 
         CodeRequest codeRequest = CodeRequest.builder()

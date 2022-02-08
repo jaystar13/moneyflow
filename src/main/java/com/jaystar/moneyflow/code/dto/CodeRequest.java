@@ -20,8 +20,9 @@ public class CodeRequest {
     }
 
     public Code toCode() {
-        Code code = new Code();
-        code.setName(this.name);
+        Code code = Code.builder()
+                .name(this.name)
+                .build();
 
         return code;
     }

@@ -1,6 +1,7 @@
 package com.jaystar.moneyflow.domain;
 
 import com.jaystar.moneyflow.code.domain.Code;
+import com.jaystar.moneyflow.code.domain.CodeType;
 import com.jaystar.moneyflow.inoutitem.domain.InoutItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,9 +15,12 @@ public class InoutItemTest {
     void classNameTest() {
         //given
         String className = "테스트클래스";
-        Code classCode = new Code();
-        classCode.setId(1L);
-        classCode.setName(className);
+        Code classCode = Code.builder()
+                .name(className)
+                .codeType(CodeType.builder()
+                        .name("코드타입")
+                        .build())
+                .build();
 
         //when
         InoutItem inoutItem = new InoutItem();
@@ -32,9 +36,12 @@ public class InoutItemTest {
     void categoryNameTest() {
         //given
         String categoryName = "테스트카테고리";
-        Code categoryCode = new Code();
-        categoryCode.setId(1L);
-        categoryCode.setName(categoryName);
+        Code categoryCode = Code.builder()
+                .name(categoryName)
+                .codeType(CodeType.builder()
+                        .name("코드타입")
+                        .build())
+                .build();
 
         //when
         InoutItem inoutItem = new InoutItem();

@@ -13,9 +13,9 @@ public class AccountTest {
     void bankName() {
         //given
         String bankName = "테스트은행";
-        Code bankCode = new Code();
-        bankCode.setId(1L);
-        bankCode.setName(bankName);
+        Code bankCode = Code.builder()
+                .name(bankName)
+                .build();
 
         //when
         Account account = new Account();
