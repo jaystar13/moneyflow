@@ -1,27 +1,28 @@
 package com.jaystar.moneyflow.code.domain;
 
+import com.jaystar.moneyflow.common.domain.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
-public class CodeType {
+public class CodeType extends BaseTimeEntity {
+
     @Id
     @GeneratedValue
     @Column(name = "CODE_TYPE_ID")
     private Long id;
 
     private String name;
-    @OneToMany(mappedBy = "codeType")
-    private final List<Code> codes = new ArrayList<>();
 
     @Builder
     public CodeType(Long id, String name) {
@@ -31,10 +32,6 @@ public class CodeType {
 
     public void update(CodeType requestCodeType) {
         this.name = requestCodeType.name;
-    }
-
-    public void removeCode(Code code) {
-        codes.remove(code);
     }
 
     @Override
