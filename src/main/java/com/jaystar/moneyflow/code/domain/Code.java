@@ -33,13 +33,7 @@ public class Code extends BaseTimeEntity {
     }
 
     public void setCodeType(CodeType codeType) {
-        removeCodeIfUpdate(this.codeType);
-    }
-
-    private void removeCodeIfUpdate(CodeType codeType) {
-        if (codeType != null) {
-            codeType.removeCode(this);
-        }
+        this.codeType = codeType;
     }
 
     public Code update(Code codeRequest) {
