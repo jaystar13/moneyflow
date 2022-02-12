@@ -21,8 +21,8 @@ public class Code extends BaseTimeEntity {
 
     private String name;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "CODE_TYPE_ID")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "CODE_TYPE_ID", nullable = false)
     private CodeType codeType;
 
     @Builder
