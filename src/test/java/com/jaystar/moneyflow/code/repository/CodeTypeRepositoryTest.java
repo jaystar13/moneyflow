@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 class CodeTypeRepositoryTest {
     @Autowired
-    CodeTypeRepository codeTypeRepository;
+    private CodeTypeRepository codeTypeRepository;
 
     @DisplayName("코드타입을 저장한다.")
     @Test
@@ -39,15 +39,5 @@ class CodeTypeRepositoryTest {
         codeType.update(updatingCodeType);
 
         assertThat(codeType.getName()).isEqualTo(updatingCodeType.getName());
-    }
-
-    @DisplayName("코드타입이 삭제될 경우 코드도 삭제한다.")
-    @Test
-    void delete() {
-    }
-
-    @DisplayName("코드타입이 코드 목록을 전부 포함하는지 확인한다.")
-    @Test
-    void containCodes() {
     }
 }
