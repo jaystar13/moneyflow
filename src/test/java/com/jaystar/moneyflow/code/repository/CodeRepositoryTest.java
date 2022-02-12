@@ -22,6 +22,9 @@ class CodeRepositoryTest {
     @Autowired
     private CodeRepository codeRepository;
 
+    @Autowired
+    private CodeTypeRepository codeTypeRepository;
+
     private CodeType codeType;
 
     private List<Code> saveCodes;
@@ -89,12 +92,14 @@ class CodeRepositoryTest {
         assertThat(findingCodes).hasSize(saveCodes.size() - 1);
     }
 
-    @DisplayName("모든코드가 삭제된다.")
+    @DisplayName("모든코드가 삭제된다.코드타입은 삭제되지 않는다.")
     @Test
     void deleteAll() {
+        int codTypeSize = codeTypeRepository.findAll().size();
         codeRepository.deleteAll();
 
         assertThat(codeRepository.findAll()).isEmpty();
+        assertThat(codeTypeRepository.findAll()).hasSize(codTypeSize);
     }
 
     @DisplayName("존재하지 않는 아이디 삭제시 예외를 발생한다.")
@@ -144,4 +149,15 @@ class CodeRepositoryTest {
                 .collect(Collectors.toList()));
     }
 
+    @DisplayName("코드타입명으로 코드를 조회한다.")
+    @Test
+    void codeSearch() {
+        //when
+        String codeTypeName = "드타";
+        List<Code> codes = codeRepository.findByCodeTypeNameContaining(codeTypeName);
+
+        //then
+        assertThat(codes).hasSize(3);
+
+    }
 }
