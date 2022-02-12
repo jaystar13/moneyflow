@@ -52,6 +52,7 @@ class CodeRepositoryTest {
 
         saveCodes = Arrays.asList(code1, code2, code3);
         codeRepository.saveAll(saveCodes);
+        codeRepository.flush();
     }
 
     @DisplayName("코드가 저장된다.")
@@ -69,6 +70,14 @@ class CodeRepositoryTest {
 
         //then
         assertThat(codeForSave).isEqualTo(savedCode);
+    }
+
+    @DisplayName("단건 코드를 조회한다.")
+    @Test
+    void findById() {
+        Code code = codeRepository.findById(1L).orElse(null);
+        
+        assertThat(code.getCodeType().getName()).isEqualTo("코드타입");
     }
 
     @DisplayName("모든 코드를 조회한다.")
