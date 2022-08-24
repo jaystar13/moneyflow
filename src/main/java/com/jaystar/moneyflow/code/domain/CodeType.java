@@ -6,10 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -24,10 +23,17 @@ public class CodeType extends BaseTimeEntity {
 
     private String name;
 
+    @OneToMany(mappedBy = "codeType", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Code> codes = new ArrayList<>();
+
     @Builder
     public CodeType(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public void addCode(Code code) {
+        this.codes.add(code);
     }
 
     public void update(CodeType requestCodeType) {
