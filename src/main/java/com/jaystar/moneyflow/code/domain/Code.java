@@ -29,7 +29,7 @@ public class Code extends BaseTimeEntity {
     public Code(Long id, String name, CodeType codeType) {
         this.id = id;
         this.name = name;
-        setCodeType(codeType);
+        this.codeType = codeType;
     }
 
     public void setCodeType(CodeType codeType) {
