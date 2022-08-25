@@ -52,10 +52,10 @@ class CodeTypeRepositoryTest {
     @DisplayName("코드타입 삭제 시 코드도 삭제된다.")
     @Test
     void delete() {
-        Code.builder()
-                .codeType(codeType)
+        Code code = Code.builder()
                 .name("code1")
                 .build();
+        code.setCodeType(codeType);
 
         CodeType saved = codeTypeRepository.saveAndFlush(codeType);
         assertThat(codeRepository.findAll()).hasSize(1);
@@ -64,6 +64,30 @@ class CodeTypeRepositoryTest {
         assertThat(codeRepository.findAll()).isEmpty();
     }
 
+    @DisplayName("코드타입을 사용하고 있는 코드를 조회한다.")
+    @Test
     void findCodes() {
+        //given
+        Code code1 = Code.builder()
+                .name("code1")
+                .build();
+        code1.setCodeType(codeType);
+
+        Code code2 = Code.builder()
+                .name("code2")
+                .build();
+        code2.setCodeType(codeType);
+
+        Code code3 = Code.builder()
+                .name("code3")
+                .build();
+        code3.setCodeType(codeType);
+
+        //when
+        CodeType saved = codeTypeRepository.saveAndFlush(codeType);
+        CodeType find = codeTypeRepository.findById(saved.getId()).get();
+
+        //then
+        assertThat(find.getCodes()).containsExactly(code1, code2, code3);
     }
 }
