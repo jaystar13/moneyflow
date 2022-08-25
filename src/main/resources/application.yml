@@ -6,5 +6,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
 ---
