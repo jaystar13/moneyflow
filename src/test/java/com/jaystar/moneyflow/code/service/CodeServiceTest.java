@@ -39,18 +39,18 @@ class CodeServiceTest {
     @DisplayName("모든 코드를 조회한다.")
     @Test
     void findAllCodes() {
+        CodeType codeType = CodeType.builder()
+                .name("codeType")
+                .build();
+
         Code code1 = Code.builder()
                 .name("code1")
-                .codeType(CodeType.builder()
-                        .name("코드타입")
-                        .build())
+                .codeType(codeType)
                 .build();
 
         Code code2 = Code.builder()
                 .name("code2")
-                .codeType(CodeType.builder()
-                        .name("코드타입")
-                        .build())
+                .codeType(codeType)
                 .build();
 
         when(codeRepository.findAll()).thenReturn(Arrays.asList(code1, code2));
