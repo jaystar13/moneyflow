@@ -1,7 +1,9 @@
 package com.jaystar.moneyflow.common.exception;
 
 public enum ErrorCode {
-    CODE_NOT_FOUND(400, "C0_001", "코드를 찾을 수 없습니다.");
+    CODE_NOT_FOUND(400, "C0_001", "코드를 찾을 수 없습니다."),
+
+    CODE_TYPE_NOT_FOUND(400, "C0_002", "코드타입을 찾을 수 없습니다.");
 
     private final String code;
     private final String message;
