@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -83,11 +85,20 @@ class CodeTypeRepositoryTest {
                 .build();
         code3.setCodeType(codeType);
 
+        Code code4 = Code.builder()
+                .name("code4")
+                .build();
+
+        CodeType newCodeType = CodeType.builder()
+                .name("새로운코드타입")
+                .build();
+        code4.setCodeType(newCodeType);
+
         //when
-        CodeType saved = codeTypeRepository.saveAndFlush(codeType);
-        CodeType find = codeTypeRepository.findById(saved.getId()).get();
+        codeRepository.saveAll(Arrays.asList(code1, code2, code3, code4));
+        CodeType findCodeType = codeTypeRepository.findByNameContaining(newCodeType.getName()).get(0);
 
         //then
-        assertThat(find.getCodes()).containsExactly(code1, code2, code3);
+        assertThat(findCodeType.getCodes()).containsExactly(code4);
     }
 }
