@@ -20,8 +20,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class CodeTypeServiceTest {
@@ -43,7 +43,7 @@ class CodeTypeServiceTest {
                 .name("code type1")
                 .build();
 
-        when(codeTypeRepository.findById(anyLong())).thenReturn(Optional.of(codeType));
+        given(codeTypeRepository.findById(anyLong())).willReturn(Optional.of(codeType));
 
         CodeTypeResponse codeTypeResponse = codeTypeService.findCodeType(1L);
 
@@ -70,8 +70,9 @@ class CodeTypeServiceTest {
                 .name("code type4")
                 .build();
 
+        given(codeTypeRepository.findAll()).willReturn(Arrays.asList(codeType1, codeType2, codeType3, codeType4));
+
         //when
-        when(codeTypeRepository.findAll()).thenReturn(Arrays.asList(codeType1, codeType2, codeType3, codeType4));
         List<CodeTypeResponse> codeTypeResponses = codeTypeService.findAllCodeTypes();
 
         //then
@@ -85,8 +86,8 @@ class CodeTypeServiceTest {
     @DisplayName("존재하지 않는 코드타입 조회시 예외를 발생한다.")
     @Test
     void findCodeTypeNotExist() {
-        //when
-        when(codeTypeRepository.findById(anyLong())).thenReturn(Optional.empty());
+        //given
+        given(codeTypeRepository.findById(anyLong())).willReturn(Optional.empty());
 
         //then
         assertThatThrownBy(() -> codeTypeService.findCodeType(1L))
@@ -117,7 +118,7 @@ class CodeTypeServiceTest {
                 .name("update code type")
                 .build();
 
-        when(codeTypeRepository.findById(anyLong())).thenReturn(Optional.of(codeType));
+        given(codeTypeRepository.findById(anyLong())).willReturn(Optional.of(codeType));
 
         codeTypeService.update(1L, updateRequest);
 
