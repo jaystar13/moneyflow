@@ -36,7 +36,9 @@ public class CodeTypeService {
 
     @Transactional
     public Long save(CodeTypeRequest request) {
-        CodeType codeType = codeTypeRepository.save(request.toCodeType());
+        CodeType codeType = request.toCodeType();
+        codeTypeRepository.save(codeType);
+        
         return codeType.getId();
     }
 

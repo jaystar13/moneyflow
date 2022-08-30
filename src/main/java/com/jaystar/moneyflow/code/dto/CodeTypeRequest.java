@@ -9,20 +9,15 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CodeTypeRequest {
-
-    private Long id;
-
     private String name;
     
     @Builder
-    public CodeTypeRequest(Long id, String name) {
-        this.id = id;
+    public CodeTypeRequest(String name) {
         this.name = name;
     }
 
     public CodeType toCodeType() {
         return CodeType.builder()
-                .id(this.id)
                 .name(this.name)
                 .build();
     }
