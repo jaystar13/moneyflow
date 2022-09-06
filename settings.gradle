@@ -1,2 +1,3 @@
 rootProject.name = 'moneyflow'
+include 'moneyflow-record'
 
