@@ -11,7 +11,9 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/code-types")
 public class CodeTypeController {
