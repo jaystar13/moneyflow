@@ -9,8 +9,8 @@ export const client = axios.create({
 
 export const getAllCodeTypes = () => client.get("/api/code-types");
 
-export const createCodeType = (data) => {
-  client.post("/api/code-types", { name: data.codeTypeNm }, {});
+export const createCodeType = async (data) => {
+  await client.post("/api/code-types", data, {});
 };
 
 export const deleteCodeType = async (id) => {

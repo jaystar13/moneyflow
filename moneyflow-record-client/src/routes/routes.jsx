@@ -1,10 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import ErrorPage from "../error-page";
 import Root from "../components/root";
-import CodeType from "../components/codeType";
-import CodeTypeForm, {
-  action as codeTypeFormAction,
-} from "../components/codeTypeForm";
+import CodeType from "../components/codeType/codeTypeContainer";
+import CodeTypeForm from "../components/codeType/codeTypeForm";
 
 const router = createBrowserRouter([
   {
@@ -19,7 +17,6 @@ const router = createBrowserRouter([
       {
         path: "codeType/add",
         element: <CodeTypeForm />,
-        action: codeTypeFormAction,
       },
     ],
   },
