@@ -1,12 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { Input, Space, Form } from "antd";
 
 export default function CodeTypeForm({ codeType, onUpdateCodeType, onCreate }) {
-  const navigate = useNavigate();
-
-  const addCodeType = () => {
-    onCreate(codeType);
-  };
-
   const onChange = (e) => {
     const { value, name } = e.target;
     onUpdateCodeType(value, name);
@@ -15,25 +9,17 @@ export default function CodeTypeForm({ codeType, onUpdateCodeType, onCreate }) {
   return (
     <div>
       <h1>{codeType.id === 0 ? "Add Code Type" : "Modify Code Type"}</h1>
-      <p>
-        <input
+      <Space>
+        <span>명칭</span>
+        <Input
           placeholder="명칭"
           type="text"
           name="name"
           value={codeType.name}
           onChange={onChange}
+          style={{ width: 200 }}
         />
-        <button type="submit" onClick={addCodeType}>
-          Save
-        </button>
-        <button
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          Cancel
-        </button>
-      </p>
+      </Space>
     </div>
   );
 }

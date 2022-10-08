@@ -14,10 +14,6 @@ const router = createBrowserRouter([
         path: "codeType",
         element: <CodeType />,
       },
-      {
-        path: "codeType/add",
-        element: <CodeTypeForm />,
-      },
     ],
   },
 ]);

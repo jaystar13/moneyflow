@@ -1,17 +1,32 @@
 import { useEffect, useState } from "react";
-import { getAllCodeTypes, deleteCodeType, createCodeType } from "../../api/api";
-import CodeTypeForm from "./codeTypeForm";
+import {
+  getAllCodeTypes,
+  deleteCodeType,
+  createCodeType,
+  updateCodeType,
+  getCodeType,
+  searchCodeTypes,
+} from "../../api/api";
 import CodeTypeList from "./codeTypeList";
+import ModalCodeTypeForm from "./modalCodeTypeForm";
 
 export default function CodeType() {
   const [codeTypes, setCodeTypes] = useState([]);
 
   const [codeType, setCodeType] = useState({ id: 0, name: "" });
 
-  const onCreate = async (codeType) => {
-    await createCodeType(codeType);
-    setCodeType({ id: 0, name: "" });
+  const reRenderCodeTypeList = ({ changedCodeType, isSaveAction }) => {
+    if (changedCodeType) {
+      setCodeType(changedCodeType);
+    }
+
     onLoadCodeTypes();
+
+    if (isSaveAction) {
+      setCodeType({ id: 0, name: "" });
+    } else {
+      setModalOpen(false);
+    }
   };
 
   const onRemove = (id) => {
@@ -24,12 +39,19 @@ export default function CodeType() {
     alert("삭제 성공");
   };
 
-  const onModify = () => {
-    console.log("onModify");
+  const onModify = async (id) => {
+    const response = await getCodeType(id);
+    setCodeType(response.data);
+    setModalOpen(true);
   };
 
   const onUpdateCodeType = (value, name) => {
     setCodeType({ ...codeType, [name]: value });
+  };
+
+  const onSearch = async (searchName) => {
+    const response = await searchCodeTypes(searchName);
+    setCodeTypes(response.data);
   };
 
   const onLoadCodeTypes = async () => {
@@ -41,17 +63,27 @@ export default function CodeType() {
     onLoadCodeTypes();
   }, []);
 
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const onAdd = () => {
+    setModalOpen(true);
+  };
+
   return (
     <div>
-      <CodeTypeForm
+      <ModalCodeTypeForm
         codeType={codeType}
         onUpdateCodeType={onUpdateCodeType}
-        onCreate={onCreate}
+        modalOpen={modalOpen}
+        reRenderCodeTypeList={reRenderCodeTypeList}
       />
+
       <CodeTypeList
         codeTypes={codeTypes}
         onRemove={onRemove}
         onModify={onModify}
+        onSearch={onSearch}
+        onAdd={onAdd}
       />
     </div>
   );

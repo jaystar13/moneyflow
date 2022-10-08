@@ -1,31 +1,59 @@
 import React from "react";
+import { Input, Button, Space, Table, Typography, Modal } from "antd";
 
-function CodeType({ codeType, onRemove, onModify }) {
-  return (
-    <div>
-      <h2>
-        {codeType.id} : {codeType.name}
-      </h2>
-      <button onClick={() => onModify(codeType.id)}>Modify</button>
-      <button onClick={() => onRemove(codeType.id)}>Delete</button>
-    </div>
-  );
-}
+const { Search } = Input;
+const { Title } = Typography;
 
-function CodeTypeList({ codeTypes, onRemove, onModify }) {
+function CodeTypeList({ codeTypes, onRemove, onModify, onSearch, onAdd }) {
+  const handleOnChange = (e) => {
+    onSearch(e.currentTarget.value);
+  };
+
+  const columns = [
+    {
+      title: "Id",
+      dataIndex: "id",
+      key: "id",
+      width: "10%",
+      align: "center",
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      width: "60%",
+    },
+    {
+      title: "Action",
+      key: "action",
+      align: "center",
+      render: (_, record) => (
+        <Space size="middle">
+          <Button onClick={() => onModify(record.id)}>Modify</Button>
+          <Button onClick={() => onRemove(record.id)}>Delete</Button>
+        </Space>
+      ),
+    },
+  ];
+
+  const showModal = () => {
+    onAdd();
+  };
+
   return (
     <>
-      <h1>Code Type List</h1>
-      <div>
-        {codeTypes.map((codeType) => (
-          <CodeType
-            codeType={codeType}
-            key={codeType.id}
-            onRemove={onRemove}
-            onModify={onModify}
-          />
-        ))}
-      </div>
+      <Title>Code Type List</Title>
+      <Search
+        type="text"
+        name="searchName"
+        placeholder="Search Code Name"
+        onChange={handleOnChange}
+        style={{ width: 200 }}
+      />
+      <Button type="primary" style={{ float: "right" }} onClick={showModal}>
+        Add
+      </Button>
+      <Table columns={columns} dataSource={codeTypes} rowKey="id" />
     </>
   );
 }

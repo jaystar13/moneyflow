@@ -6,9 +6,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CodeTypeRequest {
+    @NotBlank(message = "명칭을 입력하세요")
     private String name;
     
     @Builder

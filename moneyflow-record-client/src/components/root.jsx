@@ -1,37 +1,80 @@
-import { Outlet, Link, Form } from "react-router-dom";
+import { Outlet, Link, Form, useNavigate } from "react-router-dom";
+import {
+  DesktopOutlined,
+  FileOutlined,
+  PieChartOutlined,
+  TeamOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { Breadcrumb, Layout, Menu } from "antd";
+import { useState } from "react";
+
+const { Header, Content, Footer, Sider } = Layout;
+
+const items = [
+  {
+    label: "Admin",
+    key: "adm1",
+    icon: <PieChartOutlined />,
+    children: [{ label: <Link to="codeType">Code type</Link>, key: "1" }],
+  },
+  { label: "Option 2", key: "2", icon: <DesktopOutlined /> },
+  {
+    label: "User",
+    key: "sub1",
+    icon: <UserOutlined />,
+    children: [
+      { label: "Tom", key: "3" },
+      { label: "Bill", key: "4" },
+      { label: "Alex", key: "5" },
+    ],
+  },
+  {
+    label: "Team",
+    key: "sub2",
+    icon: <TeamOutlined />,
+    children: [
+      { label: "Team 1", key: "6" },
+      { label: "Team 2", key: "8" },
+    ],
+  },
+];
 
 export default function Root() {
+  const [collapsed, setCollapsed] = useState(false);
+
   return (
-    <>
-      <div id="sidebar">
-        <h1>Money Flow Record</h1>
-        <div>
-          <Form id="search-form" role="search">
-            <input
-              type="search"
-              id="q"
-              aria-label="Search Menus"
-              placeholder="Search"
-              name="q"
-            />
-            <div id="search-spinner" aria-hidden hidden={true}></div>
-            <div className="sr-only" aria-live="polite"></div>
-          </Form>
-        </div>
-        <nav>
-          <ul>
-            <li>
-              <Link to={`codeType`}>코드타입</Link>
-            </li>
-            <li>
-              <Link to={`code`}>코드</Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <div id="detail">
-        <Outlet />
-      </div>
-    </>
+    <Layout style={{ minHeight: "100vh" }}>
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={(value) => setCollapsed(value)}
+      >
+        <div className="logo" />
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={["adm1"]}
+          mode="inline"
+          items={items}
+        ></Menu>
+      </Sider>
+      <Layout className="site-layout">
+        <Header className="site-layout-backgroud" style={{ padding: 0 }} />
+        <Content style={{ margin: "0 16px" }}>
+          <Breadcrumb style={{ margin: "16px 0" }}>
+            <Breadcrumb.Item>Code Type</Breadcrumb.Item>
+          </Breadcrumb>
+          <div
+            className="site-layout-background"
+            style={{ padding: 24, minHeight: 660 }}
+          >
+            <Outlet />
+          </div>
+        </Content>
+        <Footer style={{ textAlign: "center" }}>
+          jaystar @2022 Created by Ant UED
+        </Footer>
+      </Layout>
+    </Layout>
   );
 }
