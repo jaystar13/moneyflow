@@ -13,7 +13,7 @@ import ModalCodeTypeForm from "./modalCodeTypeForm";
 export default function CodeType() {
   const [codeTypes, setCodeTypes] = useState([]);
 
-  const [codeType, setCodeType] = useState({ id: 0, name: "" });
+  const [codeType, setCodeType] = useState({});
 
   const reRenderCodeTypeList = ({ changedCodeType, isSaveAction }) => {
     if (changedCodeType) {
@@ -41,7 +41,12 @@ export default function CodeType() {
 
   const onModify = async (id) => {
     const response = await getCodeType(id);
-    setCodeType(response.data);
+    console.log(response.data);
+    await setCodeTypeModal(response.data);
+  };
+
+  const setCodeTypeModal = async (codeType) => {
+    setCodeType(codeType);
     setModalOpen(true);
   };
 
@@ -66,6 +71,7 @@ export default function CodeType() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const onAdd = () => {
+    setCodeType({ id: 0, name: "" });
     setModalOpen(true);
   };
 

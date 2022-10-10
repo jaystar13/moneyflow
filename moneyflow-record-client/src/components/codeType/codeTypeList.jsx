@@ -36,13 +36,13 @@ function CodeTypeList({ codeTypes, onRemove, onModify, onSearch, onAdd }) {
     },
   ];
 
-  const showModal = () => {
+  const handleOnAdd = () => {
     onAdd();
   };
 
   return (
     <>
-      <Title>Code Type List</Title>
+      <Title>Code Type</Title>
       <Search
         type="text"
         name="searchName"
@@ -50,7 +50,7 @@ function CodeTypeList({ codeTypes, onRemove, onModify, onSearch, onAdd }) {
         onChange={handleOnChange}
         style={{ width: 200 }}
       />
-      <Button type="primary" style={{ float: "right" }} onClick={showModal}>
+      <Button type="primary" style={{ float: "right" }} onClick={handleOnAdd}>
         Add
       </Button>
       <Table columns={columns} dataSource={codeTypes} rowKey="id" />

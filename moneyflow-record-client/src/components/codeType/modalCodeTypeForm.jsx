@@ -1,6 +1,7 @@
 import { createCodeType, updateCodeType } from "../../api/api";
 import CodeTypeForm from "./codeTypeForm";
-import { Button, Modal } from "antd";
+import { Modal, Form } from "antd";
+import { useCallback } from "react";
 
 export default function ModalCodeTypeForm({
   codeType,
@@ -8,14 +9,6 @@ export default function ModalCodeTypeForm({
   modalOpen,
   reRenderCodeTypeList,
 }) {
-  const handleSave = async () => {
-    if (codeType.id === 0) {
-      await saveCodeType(codeType);
-    } else {
-      await modifyCodeType(codeType.id, codeType);
-    }
-  };
-
   const saveCodeType = async (codeType) => {
     await createCodeType(codeType);
     reRenderCodeTypeList({ changedCodeType: codeType, isSaveAction: true });
@@ -34,23 +27,28 @@ export default function ModalCodeTypeForm({
     onUpdateCodeType(value, name);
   };
 
+  const [form] = Form.useForm();
+
+  const onSubmit = useCallback((codeType) => {
+    if (codeType.id === 0) {
+      saveCodeType(codeType);
+    } else {
+      modifyCodeType(codeType.id, codeType);
+    }
+  }, []);
+
   return (
     <div>
       <Modal
         open={modalOpen}
-        onOk={handleSave}
         onCancel={handleCancel}
-        footer={[
-          <Button key="submit" type="primary" onClick={handleSave}>
-            Save
-          </Button>,
-          <Button key="back" onClick={handleCancel}>
-            Cancle
-          </Button>,
-        ]}
+        onOk={form.submit}
+        footer={null}
       >
         <CodeTypeForm
           codeType={codeType}
+          form={form}
+          onSubmit={onSubmit}
           onUpdateCodeType={handleUpdateCodeType}
         />
       </Modal>
