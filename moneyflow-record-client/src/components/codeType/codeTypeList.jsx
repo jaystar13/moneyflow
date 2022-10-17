@@ -1,8 +1,7 @@
 import React from "react";
-import { Input, Button, Space, Table, Typography, Modal } from "antd";
+import { Input, Button, Space, Table } from "antd";
 
 const { Search } = Input;
-const { Title } = Typography;
 
 function CodeTypeList({ codeTypes, onRemove, onModify, onSearch, onAdd }) {
   const handleOnChange = (e) => {
@@ -42,17 +41,22 @@ function CodeTypeList({ codeTypes, onRemove, onModify, onSearch, onAdd }) {
 
   return (
     <>
-      <Title>Code Type</Title>
-      <Search
-        type="text"
-        name="searchName"
-        placeholder="Search Code Name"
-        onChange={handleOnChange}
-        style={{ width: 200 }}
-      />
-      <Button type="primary" style={{ float: "right" }} onClick={handleOnAdd}>
-        Add
-      </Button>
+      <div
+        style={{
+          marginBottom: 16,
+        }}
+      >
+        <Search
+          type="text"
+          name="searchName"
+          placeholder="Search Code Name"
+          onChange={handleOnChange}
+          style={{ width: 200 }}
+        />
+        <Button type="primary" style={{ float: "right" }} onClick={handleOnAdd}>
+          Add
+        </Button>
+      </div>
       <Table columns={columns} dataSource={codeTypes} rowKey="id" />
     </>
   );

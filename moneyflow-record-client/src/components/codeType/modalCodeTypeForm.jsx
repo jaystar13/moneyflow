@@ -27,8 +27,6 @@ export default function ModalCodeTypeForm({
     onUpdateCodeType(value, name);
   };
 
-  const [form] = Form.useForm();
-
   const onSubmit = useCallback((codeType) => {
     if (codeType.id === 0) {
       saveCodeType(codeType);
@@ -39,15 +37,9 @@ export default function ModalCodeTypeForm({
 
   return (
     <div>
-      <Modal
-        open={modalOpen}
-        onCancel={handleCancel}
-        onOk={form.submit}
-        footer={null}
-      >
+      <Modal open={modalOpen} onCancel={handleCancel} footer={null}>
         <CodeTypeForm
           codeType={codeType}
-          form={form}
           onSubmit={onSubmit}
           onUpdateCodeType={handleUpdateCodeType}
         />

@@ -16,17 +16,20 @@ const items = [
     label: "Admin",
     key: "adm1",
     icon: <PieChartOutlined />,
-    children: [{ label: <Link to="codeType">Code type</Link>, key: "1" }],
+    children: [
+      { label: <Link to="codeType">Code type</Link>, key: "A1" },
+      { label: <Link to="code">Code</Link>, key: "A2" },
+    ],
   },
-  { label: "Option 2", key: "2", icon: <DesktopOutlined /> },
+  { label: "Option 2", key: "B1", icon: <DesktopOutlined /> },
   {
     label: "User",
     key: "sub1",
     icon: <UserOutlined />,
     children: [
-      { label: "Tom", key: "3" },
-      { label: "Bill", key: "4" },
-      { label: "Alex", key: "5" },
+      { label: "Tom", key: "C1" },
+      { label: "Bill", key: "C2" },
+      { label: "Alex", key: "C3" },
     ],
   },
   {
@@ -34,8 +37,8 @@ const items = [
     key: "sub2",
     icon: <TeamOutlined />,
     children: [
-      { label: "Team 1", key: "6" },
-      { label: "Team 2", key: "8" },
+      { label: "Team 1", key: "D1" },
+      { label: "Team 2", key: "D2" },
     ],
   },
 ];
@@ -50,7 +53,9 @@ export default function Root() {
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
       >
-        <div className="logo" />
+        <Link to="/">
+          <div className="logo" />
+        </Link>
         <Menu
           theme="dark"
           defaultSelectedKeys={["adm1"]}
@@ -59,14 +64,14 @@ export default function Root() {
         ></Menu>
       </Sider>
       <Layout className="site-layout">
-        <Header className="site-layout-backgroud" style={{ padding: 0 }} />
+        {/* <Header className="site-layout-backgroud" style={{ padding: 0 }} /> */}
         <Content style={{ margin: "0 16px" }}>
           <Breadcrumb style={{ margin: "16px 0" }}>
             <Breadcrumb.Item>Code Type</Breadcrumb.Item>
           </Breadcrumb>
           <div
             className="site-layout-background"
-            style={{ padding: 24, minHeight: 660 }}
+            style={{ padding: 24, minHeight: 750 }}
           >
             <Outlet />
           </div>

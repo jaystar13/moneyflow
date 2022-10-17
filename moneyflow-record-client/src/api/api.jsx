@@ -12,7 +12,7 @@ export const getAllCodeTypes = () => client.get("/api/code-types");
 export const getCodeType = (id) => client.get(`/api/code-types/${id}`);
 
 export const searchCodeTypes = (searchName) =>
-  client.get(`/api/code-types//contain-word`, {
+  client.get(`/api/code-types/contain-word`, {
     params: { contain: searchName },
   });
 
@@ -34,4 +34,16 @@ export const updateCodeType = async (id, data) => {
 
 export const deleteCodeType = async (id) => {
   await client.delete(`/api/code-types/${id}`);
+};
+
+export const createCode = async (data) => {
+  await client.post("/api/codes", data, {}).catch(function (error) {
+    if (error.response) {
+      console.log(
+        error.response.data.errors.forEach((element) => {
+          console.log(element.defaultMessage);
+        })
+      );
+    }
+  });
 };

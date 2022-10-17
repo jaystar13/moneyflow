@@ -1,11 +1,11 @@
-import { Input, Form, Button, InputNumber } from "antd";
+import { Typography, Input, Form, Button, InputNumber } from "antd";
+import { useEffect } from "react";
 
-export default function CodeTypeForm({
-  codeType,
-  form,
-  onUpdateCodeType,
-  onSubmit,
-}) {
+const { Title } = Typography;
+
+export default function CodeTypeForm({ codeType, onUpdateCodeType, onSubmit }) {
+  const [form] = Form.useForm();
+
   const onFinish = () => {
     onSubmit(codeType);
   };
@@ -16,12 +16,17 @@ export default function CodeTypeForm({
     });
   };
 
+  const setCodeTypeForm = () => {
+    form.setFieldsValue({ id: codeType.id, name: codeType.name });
+  };
+
+  useEffect(() => {
+    setCodeTypeForm();
+  }, [setCodeTypeForm]);
+
   return (
     <div>
-      <h1>
-        {codeType.id}
-        {codeType.id === 0 ? "Add Code Type" : "Modify Code Type"}
-      </h1>
+      <Title level={3}>{codeType.id === 0 ? "Add" : "Modify"} Code Type</Title>
       <Form
         form={form}
         name="codetype-form"
@@ -29,7 +34,6 @@ export default function CodeTypeForm({
         wrapperCol={{ span: 16 }}
         onFinish={onFinish}
         onFieldsChange={onFieldsChange}
-        initialValues={{ id: codeType.id, name: codeType.name }}
       >
         <Form.Item label="id" name="id" rules={[{ required: true }]}>
           <InputNumber disabled />

@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import {
   getAllCodeTypes,
   deleteCodeType,
-  createCodeType,
-  updateCodeType,
   getCodeType,
   searchCodeTypes,
 } from "../../api/api";
 import CodeTypeList from "./codeTypeList";
 import ModalCodeTypeForm from "./modalCodeTypeForm";
+import { Typography } from "antd";
+
+const { Title } = Typography;
 
 export default function CodeType() {
   const [codeTypes, setCodeTypes] = useState([]);
@@ -41,7 +42,6 @@ export default function CodeType() {
 
   const onModify = async (id) => {
     const response = await getCodeType(id);
-    console.log(response.data);
     await setCodeTypeModal(response.data);
   };
 
@@ -77,6 +77,7 @@ export default function CodeType() {
 
   return (
     <div>
+      <Title>Code Type</Title>
       <ModalCodeTypeForm
         codeType={codeType}
         onUpdateCodeType={onUpdateCodeType}
