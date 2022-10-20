@@ -44,8 +44,8 @@ class CodeControllerTest {
     @Test
     void findCodes() throws Exception {
         List<CodeResponse> codeResponses = Arrays.asList(
-                new CodeResponse(1L, "TEST1"),
-                new CodeResponse(2L, "TEST2")
+                new CodeResponse(1L, "TEST1", 1L, "code type"),
+                new CodeResponse(2L, "TEST2", 1L, "code type")
         );
 
         given(codeService.findAllCodes()).willReturn(codeResponses);
@@ -60,9 +60,9 @@ class CodeControllerTest {
     @Test
     void findByNameContaining() throws Exception {
         List<CodeResponse> codeResponses = Arrays.asList(
-                new CodeResponse(1L, "TEST1"),
-                new CodeResponse(2L, "TEST2"),
-                new CodeResponse(3L, "TEST3")
+                new CodeResponse(1L, "TEST1", 1L, "code type"),
+                new CodeResponse(2L, "TEST2", 1L, "code type"),
+                new CodeResponse(3L, "TEST3", 1L, "code type")
         );
 
         given(codeService.findByNameContaining(anyString())).willReturn(codeResponses);
@@ -78,7 +78,7 @@ class CodeControllerTest {
     @DisplayName("코드 단건을 조회한다.")
     @Test
     void findCode() throws Exception {
-        CodeResponse codeResponse = new CodeResponse(9000L, "TEST9000");
+        CodeResponse codeResponse = new CodeResponse(9000L, "TEST9000", 1L, "code type");
 
         given(codeService.findCode(9000L)).willReturn(codeResponse);
 
@@ -116,13 +116,9 @@ class CodeControllerTest {
     @DisplayName("코드를 생성한다.")
     @Test
     void addCode() throws Exception {
-        CodeRequest parent = CodeRequest.builder()
-                .name("parent")
-                .build();
-
         CodeRequest codeRequest = CodeRequest.builder()
                 .name("TEST1")
-                .parent(parent)
+                .codeTypeId(1)
                 .build();
 
         given(codeService.save(any())).willReturn(1L);
