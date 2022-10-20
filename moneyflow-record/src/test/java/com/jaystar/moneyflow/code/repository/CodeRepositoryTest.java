@@ -25,79 +25,75 @@ class CodeRepositoryTest {
     @Autowired
     private CodeTypeRepository codeTypeRepository;
 
-    private Code code1;
-
-    private Code code2;
-
-    private Code code3;
-
     @BeforeEach
     void setUp() {
-        CodeType codeType = CodeType.builder()
-                .name("코드타입")
-                .build();
-
-        code1 = Code.builder()
-                .name("TEST_1")
-                .codeType(codeType)
-                .build();
-
-        code2 = Code.builder()
-                .name("TEST_2")
-                .codeType(codeType)
-                .build();
-
-        code3 = Code.builder()
-                .name("EST_3")
-                .codeType(codeType)
-                .build();
     }
 
     @DisplayName("코드가 저장된다.")
     @Test
     void save() {
+        //given
+        Code code = givenCode();
+
         //when
-        Code savedCode = codeRepository.saveAndFlush(code1);
+        Code saveCode = codeRepository.saveAndFlush(code);
 
         //then
-        assertThat(savedCode).isEqualTo(code1);
+        assertThat(saveCode).isEqualTo(code);
     }
 
     @DisplayName("단건 코드를 조회한다.")
     @Test
     void findById() {
-        Code save = codeRepository.saveAndFlush(code1);
-        Code find = codeRepository.findById(save.getId()).get();
+        //given
+        Code code = givenCode();
 
-        assertThat(find.getCodeType().getName()).isEqualTo("코드타입");
+        //when
+        Code saveCode = codeRepository.saveAndFlush(code);
+        Code find = codeRepository.findById(saveCode.getId()).get();
+
+        //then
+        assertThat(find.getName()).isEqualTo(saveCode.getName());
     }
 
     @DisplayName("모든 코드를 조회한다.")
     @Test
     void findAll() {
+        //given
+        List<Code> givenCodes = givenCodes();
+
         //when
-        codeRepository.saveAll(Arrays.asList(code1, code2, code3));
+        codeRepository.saveAll(givenCodes);
         List<Code> findingCodes = codeRepository.findAll();
 
         //then
-        assertThat(findingCodes).contains(code1, code2, code3);
+        assertThat(findingCodes).isEqualTo(givenCodes);
     }
 
     @DisplayName("코드가 삭제된다.")
     @Test
     void delete() {
-        Code code = codeRepository.saveAndFlush(code1);
-        codeRepository.deleteById(code.getId());
+        //given
+        Code code = givenCode();
+
+        //when
+        Code saveCode = codeRepository.saveAndFlush(code);
+        codeRepository.deleteById(saveCode.getId());
 
         List<Code> all = codeRepository.findAll();
 
+        //then
         assertThat(all).hasSize(0);
     }
 
     @DisplayName("모든코드가 삭제된다.코드타입은 삭제되지 않는다.")
     @Test
     void deleteAll() {
-        codeRepository.saveAll(Arrays.asList(code1, code2, code3));
+        //given
+        List<Code> givenCodes = givenCodes();
+
+        //when
+        codeRepository.saveAll(givenCodes);
         int codeTypeSize = codeTypeRepository.findAll().size();
         codeRepository.deleteAll();
 
@@ -147,13 +143,16 @@ class CodeRepositoryTest {
     @DisplayName("코드명으로 조회한다.")
     @Test
     void findByNameContaining() {
+        //given
+        List<Code> givenCodes = givenCodes();
+
         //when
-        List<Code> saveCodes = codeRepository.saveAll(Arrays.asList(code1, code2, code3));
-        List<Code> findingCodes = codeRepository.findByNameContaining("TEST");
+        List<Code> saveCodes = codeRepository.saveAll(givenCodes);
+        List<Code> findingCodes = codeRepository.findByNameContaining("은행");
 
         //then
         assertThat(findingCodes).isEqualTo(saveCodes.stream()
-                .filter(code -> code.getName().contains("TEST"))
+                .filter(code -> code.getName().contains("은행"))
                 .collect(Collectors.toList()));
     }
 
@@ -161,14 +160,55 @@ class CodeRepositoryTest {
     @Test
     void codeSearch() {
         //given
-        codeRepository.saveAll(Arrays.asList(code1, code2, code3));
-        
+        List<Code> givenCodes = givenCodes();
+        codeRepository.saveAll(givenCodes);
+
         //when
-        String codeTypeName = "드타";
+        String codeTypeName = "행구";
         List<Code> codes = codeRepository.findByCodeTypeNameContaining(codeTypeName);
 
         //then
         assertThat(codes).hasSize(3);
 
+    }
+
+    private CodeType saveCodeType() {
+        CodeType codeType = CodeType.builder()
+                .name("은행구분")
+                .build();
+
+        return codeTypeRepository.save(codeType);
+    }
+
+    private Code givenCode() {
+        CodeType saveCodeType = saveCodeType();
+
+        Code code = Code.builder()
+                .name("대한은행")
+                .codeType(saveCodeType)
+                .build();
+
+        return code;
+    }
+
+    private List<Code> givenCodes() {
+        CodeType saveCodeType = saveCodeType();
+
+        Code code1 = Code.builder()
+                .name("대한은행")
+                .codeType(saveCodeType)
+                .build();
+
+        Code code2 = Code.builder()
+                .name("민국은행")
+                .codeType(saveCodeType)
+                .build();
+
+        Code code3 = Code.builder()
+                .name("만세은행")
+                .codeType(saveCodeType)
+                .build();
+
+        return Arrays.asList(code1, code2, code3);
     }
 }
