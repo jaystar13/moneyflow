@@ -17,8 +17,12 @@ public class CodeResponse {
 
     private String name;
 
+    private Long codeTypeId;
+
+    private String codeTypeName;
+
     public static CodeResponse of(Code code) {
-        return new CodeResponse(code.getId(), code.getName());
+        return new CodeResponse(code.getId(), code.getName(), code.getCodeType().getId(), code.getCodeType().getName());
     }
 
     public static List<CodeResponse> listOf(List<Code> codes) {
