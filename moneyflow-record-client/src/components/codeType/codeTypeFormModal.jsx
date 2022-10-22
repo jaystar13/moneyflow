@@ -3,7 +3,7 @@ import CodeTypeForm from "./codeTypeForm";
 import { Modal, Form } from "antd";
 import { useCallback } from "react";
 
-export default function ModalCodeTypeForm({
+export default function CodeTypeFormModal({
   codeType,
   onUpdateCodeType,
   modalOpen,

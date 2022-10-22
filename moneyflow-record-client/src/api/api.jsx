@@ -17,7 +17,7 @@ export const searchCodeTypes = (searchName) =>
   });
 
 export const createCodeType = async (data) => {
-  await client.post("/api/code-types", data, {}).catch(function (error) {
+  await client.post("/api/code-types", data, {}).catch((error) => {
     if (error.response) {
       console.log(
         error.response.data.errors.forEach((element) => {
@@ -37,7 +37,7 @@ export const deleteCodeType = async (id) => {
 };
 
 export const createCode = async (data) => {
-  await client.post("/api/codes", data, {}).catch(function (error) {
+  await client.post("/api/codes", data, {}).catch((error) => {
     if (error.response) {
       console.log(
         error.response.data.errors.forEach((element) => {
@@ -47,3 +47,5 @@ export const createCode = async (data) => {
     }
   });
 };
+
+export const getAllCodes = () => client.get("/api/codes");

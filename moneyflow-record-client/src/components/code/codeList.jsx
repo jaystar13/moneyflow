@@ -1,6 +1,21 @@
-import { Table, Button } from "antd";
+import { Table, Button, Space } from "antd";
+import { useEffect, useState } from "react";
+import { getAllCodes } from "../../api/api";
 
-export default function CodeList() {
+export default function CodeList({ onAdd, reRender }) {
+  const [codes, setCodes] = useState([]);
+
+  const getCodes = async () => {
+    console.log("getCodes");
+    const response = await getAllCodes();
+    setCodes(response.data);
+  };
+
+  const { render } = reRender;
+  useEffect(() => {
+    getCodes();
+  }, [render]);
+
   const columns = [
     {
       title: "Id",
@@ -17,8 +32,8 @@ export default function CodeList() {
     },
     {
       title: "Code Type",
-      dataIndex: "codeType",
-      key: "codeType",
+      dataIndex: "codeTypeName",
+      key: "codeTypeName",
       width: "20%",
     },
     {
@@ -27,16 +42,26 @@ export default function CodeList() {
       align: "center",
       render: (_, record) => (
         <Space size="middle">
-          <Button onClick={() => onModify(record.id)}>Modify</Button>
-          <Button onClick={() => onRemove(record.id)}>Delete</Button>
+          <Button onClick={() => handleOnModify(record.id)}>Modify</Button>
+          <Button onClick={() => handleOnDelete(record.id)}>Delete</Button>
         </Space>
       ),
     },
   ];
 
+  const handleOnModify = (id) => {
+    console.log("handleOnModify", id);
+  };
+
+  const handleOnDelete = (id) => {
+    console.log("handleOnDelete", id);
+  };
+
   const handleOnAdd = () => {
     console.log("handleOnAdd");
+    onAdd();
   };
+
   return (
     <div>
       <Button
@@ -46,7 +71,7 @@ export default function CodeList() {
       >
         Add
       </Button>
-      <Table columns={columns}></Table>
+      <Table columns={columns} dataSource={codes} rowKey="id"></Table>
     </div>
   );
 }

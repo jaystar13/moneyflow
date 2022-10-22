@@ -6,7 +6,7 @@ import {
   searchCodeTypes,
 } from "../../api/api";
 import CodeTypeList from "./codeTypeList";
-import ModalCodeTypeForm from "./modalCodeTypeForm";
+import CodeTypeFormModal from "./codeTypeFormModal";
 import { Typography } from "antd";
 
 const { Title } = Typography;
@@ -78,7 +78,7 @@ export default function CodeType() {
   return (
     <div>
       <Title>Code Type</Title>
-      <ModalCodeTypeForm
+      <CodeTypeFormModal
         codeType={codeType}
         onUpdateCodeType={onUpdateCodeType}
         modalOpen={modalOpen}
