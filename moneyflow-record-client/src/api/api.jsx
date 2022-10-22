@@ -49,3 +49,5 @@ export const createCode = async (data) => {
 };
 
 export const getAllCodes = () => client.get("/api/codes");
+
+export const getCode = (id) => client.get(`/api/codes/${id}`);

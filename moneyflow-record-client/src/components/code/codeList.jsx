@@ -1,12 +1,11 @@
 import { Table, Button, Space } from "antd";
 import { useEffect, useState } from "react";
-import { getAllCodes } from "../../api/api";
+import { getAllCodes, getCode } from "../../api/api";
 
-export default function CodeList({ onAdd, reRender }) {
+export default function CodeList({ code, onAdd, callback, reRender }) {
   const [codes, setCodes] = useState([]);
 
   const getCodes = async () => {
-    console.log("getCodes");
     const response = await getAllCodes();
     setCodes(response.data);
   };
@@ -49,8 +48,11 @@ export default function CodeList({ onAdd, reRender }) {
     },
   ];
 
-  const handleOnModify = (id) => {
+  const handleOnModify = async (id) => {
     console.log("handleOnModify", id);
+    const response = await getCode(id);
+    console.log(response.data);
+    callback(response.data);
   };
 
   const handleOnDelete = (id) => {
@@ -59,7 +61,7 @@ export default function CodeList({ onAdd, reRender }) {
 
   const handleOnAdd = () => {
     console.log("handleOnAdd");
-    onAdd();
+    callback();
   };
 
   return (

@@ -17,16 +17,30 @@ export default function CodeContainer() {
     setModalConfigure({ ...modalConfigure, modalOpen: true });
   };
 
+  const [code, setCode] = useState({ id: 0, name: "", codeTypeId: null });
+
+  const callback = (code) => {
+    console.log(code);
+    if (code) {
+      setCode(code);
+    }
+
+    console.log("code", this.useState.code);
+    setModalConfigure({ ...modalConfigure, modalOpen: true });
+  };
+
   return (
     <div>
-      <Title>Code {render ? "true" : "false"}</Title>
+      <Title>Code</Title>
       <CodeForm
         configure={modalConfigure}
-        code={{ id: 0, name: "", codeTypeId: null }}
+        code={code}
         reRender={{ render: render, setRender: setRender }}
       />
       <CodeList
+        code={code}
         onAdd={onAdd}
+        callback={callback}
         reRender={{ render: render, setRender: setRender }}
       />
     </div>
