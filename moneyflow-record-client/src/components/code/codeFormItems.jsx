@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { getAllCodeTypes, createCode } from "../../api/api";
+import { getAllCodeTypes, createCode, updateCode } from "../../api/api";
 
 import { Typography, Form, Input, InputNumber, Button, Select } from "antd";
 
 const { Title } = Typography;
 
-export default function CodeForm({ code, callbackOnSubmit }) {
+export default function CodeFormItems({ code, callback }) {
   const [form] = Form.useForm();
 
   const [options, setOptions] = useState([]);
@@ -28,14 +28,15 @@ export default function CodeForm({ code, callbackOnSubmit }) {
   };
 
   useEffect(() => {
+    //console.log("initCodeForm");
     initCodeForm();
-  }, [form]);
+  }, [code]);
 
   const initCodeForm = () => {
     form.setFieldsValue({
       id: code.id,
       name: code.name,
-      codeTypeId: code.codeType,
+      codeTypeId: code.codeTypeId,
     });
   };
 
@@ -45,19 +46,23 @@ export default function CodeForm({ code, callbackOnSubmit }) {
   };
 
   const submit = async (code) => {
-    const res = await createCode(code);
-    callbackOnSubmit();
+    if (code.id === 0) {
+      await createCode(code);
+    } else {
+      await updateCode(code.id, code);
+    }
+    callback(code.id);
   };
 
   const onFieldsChange = (changedFields) => {
-    console.log("onFieldsChange");
+    //console.log("onFieldsChange");
   };
 
   const onChange = (value) => {
-    console.log(`selected ${value}`);
+    //console.log(`selected ${value}`);
   };
   const onSearch = (value) => {
-    console.log("search:", value);
+    //console.log("search:", value);
   };
 
   return (

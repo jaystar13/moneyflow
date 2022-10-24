@@ -51,3 +51,11 @@ export const createCode = async (data) => {
 export const getAllCodes = () => client.get("/api/codes");
 
 export const getCode = (id) => client.get(`/api/codes/${id}`);
+
+export const updateCode = async (id, data) => {
+  await client.put(`api/codes/${id}`, data);
+};
+
+export const deleteCode = async (id) => {
+  await client.delete(`/api/codes/${id}`);
+};

@@ -19,13 +19,11 @@ export default function CodeContainer() {
 
   const [code, setCode] = useState({ id: 0, name: "", codeTypeId: null });
 
-  const callback = (code) => {
-    console.log(code);
-    if (code) {
-      setCode(code);
+  const setCodeForm = (targetCode) => {
+    if (targetCode) {
+      setCode({ ...targetCode });
     }
 
-    console.log("code", this.useState.code);
     setModalConfigure({ ...modalConfigure, modalOpen: true });
   };
 
@@ -38,9 +36,7 @@ export default function CodeContainer() {
         reRender={{ render: render, setRender: setRender }}
       />
       <CodeList
-        code={code}
-        onAdd={onAdd}
-        callback={callback}
+        setCodeForm={setCodeForm}
         reRender={{ render: render, setRender: setRender }}
       />
     </div>

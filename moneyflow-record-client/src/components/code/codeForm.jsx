@@ -2,7 +2,7 @@ import { Modal } from "antd";
 import { useEffect, useState } from "react";
 import CodeFormItems from "./codeFormItems";
 
-export default function CodeFormModal({ configure, code, reRender }) {
+export default function CodeForm({ configure, code, reRender }) {
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
@@ -20,8 +20,9 @@ export default function CodeFormModal({ configure, code, reRender }) {
     }
   };
 
-  const callbackOnSubmit = () => {
+  const callbackOnSubmit = (codeId) => {
     console.log("callbackOnSave");
+    codeId === 0 ? setModalOpen(true) : setModalOpen(false);
     requestRendering();
   };
 
@@ -29,10 +30,10 @@ export default function CodeFormModal({ configure, code, reRender }) {
     <div>
       {configure.useModal ? (
         <Modal open={modalOpen} onCancel={handleOnCancel} footer={null}>
-          <CodeFormItems code={code} callbackOnSubmit={callbackOnSubmit} />
+          <CodeFormItems code={code} callback={callbackOnSubmit} />
         </Modal>
       ) : (
-        <CodeFormItems code={code} callbackOnSubmit={callbackOnSubmit} />
+        <CodeFormItems code={code} callback={callbackOnSubmit} />
       )}
     </div>
   );

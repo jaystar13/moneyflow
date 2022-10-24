@@ -1,18 +1,21 @@
-import { Table, Button, Space } from "antd";
+import { Table, Button, Space, Modal } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import { getAllCodes, getCode } from "../../api/api";
+import { getAllCodes, getCode, deleteCode } from "../../api/api";
 
-export default function CodeList({ code, onAdd, callback, reRender }) {
+const { confirm } = Modal;
+
+export default function CodeList({ setCodeForm, reRender }) {
   const [codes, setCodes] = useState([]);
 
-  const getCodes = async () => {
+  const initTable = async () => {
     const response = await getAllCodes();
     setCodes(response.data);
   };
 
   const { render } = reRender;
   useEffect(() => {
-    getCodes();
+    initTable();
   }, [render]);
 
   const columns = [
@@ -49,19 +52,36 @@ export default function CodeList({ code, onAdd, callback, reRender }) {
   ];
 
   const handleOnModify = async (id) => {
-    console.log("handleOnModify", id);
+    //console.log("handleOnModify", id);
     const response = await getCode(id);
-    console.log(response.data);
-    callback(response.data);
+    //console.log(response.data);
+    setCodeForm(response.data);
   };
 
   const handleOnDelete = (id) => {
     console.log("handleOnDelete", id);
+    confirm({
+      title: "코드를 삭제하시겠습니까?",
+      icon: <ExclamationCircleOutlined />,
+      //content: "코드를 삭제하시겠습니까?",
+      onOk() {
+        console.log("Ok");
+        removeCode(id);
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
   };
 
   const handleOnAdd = () => {
     console.log("handleOnAdd");
-    callback();
+    setCodeForm({ id: 0, name: "", codeTypeId: null });
+  };
+
+  const removeCode = async (id) => {
+    await deleteCode(id);
+    initTable();
   };
 
   return (
