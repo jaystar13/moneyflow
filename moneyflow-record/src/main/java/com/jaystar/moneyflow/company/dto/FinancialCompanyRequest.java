@@ -12,16 +12,16 @@ import lombok.NoArgsConstructor;
 public class FinancialCompanyRequest {
     public String name;
 
-    public String companyTypeName;
+    public String companyType;
 
     public boolean isUsable;
 
     public String definition;
 
     @Builder
-    public FinancialCompanyRequest(String name, String companyTypeName, boolean isUsable, String definition) {
+    public FinancialCompanyRequest(String name, String companyType, boolean isUsable, String definition) {
         this.name = name;
-        this.companyTypeName = companyTypeName;
+        this.companyType = companyType;
         this.isUsable = isUsable;
         this.definition = definition;
     }
@@ -29,7 +29,7 @@ public class FinancialCompanyRequest {
     public FinancialCompany toFinancialCompany() {
         return FinancialCompany.builder()
                 .name(name)
-                .companyType(CompanyType.valueOf(companyTypeName))
+                .companyType(CompanyType.valueOf(companyType))
                 .isUsable(isUsable)
                 .definition(definition)
                 .build();

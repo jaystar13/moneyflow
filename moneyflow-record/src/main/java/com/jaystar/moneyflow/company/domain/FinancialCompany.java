@@ -2,10 +2,12 @@ package com.jaystar.moneyflow.company.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
+@NoArgsConstructor
 @Getter
 @Entity(name = "fnncl_cmp")
 public class FinancialCompany {
@@ -44,5 +46,12 @@ public class FinancialCompany {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, companyType, isUsable, definition);
+    }
+
+    public void update(FinancialCompany financialCompany) {
+        this.name = financialCompany.name;
+        this.companyType = financialCompany.companyType;
+        this.isUsable = financialCompany.isUsable;
+        this.definition = financialCompany.definition;
     }
 }
