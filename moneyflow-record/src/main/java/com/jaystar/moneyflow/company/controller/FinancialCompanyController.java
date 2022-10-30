@@ -1,17 +1,17 @@
 package com.jaystar.moneyflow.company.controller;
 
 import com.jaystar.moneyflow.company.domain.CompanyType;
+import com.jaystar.moneyflow.company.dto.FinancialCompanyRequest;
 import com.jaystar.moneyflow.company.dto.FinancialCompanyResponse;
 import com.jaystar.moneyflow.company.service.FinancialCompanyService;
 import com.jaystar.moneyflow.util.mapper.EnumMapper;
 import com.jaystar.moneyflow.util.mapper.EnumMapperValue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -47,6 +47,24 @@ public class FinancialCompanyController {
     @GetMapping
     public ResponseEntity<List<FinancialCompanyResponse>> findAll() {
         return ResponseEntity.ok(financialCompanyService.findAll());
+    }
+
+    @PostMapping
+    public ResponseEntity<Void> save(@RequestBody @Valid FinancialCompanyRequest financialCompanyRequest) {
+        Long saveId = financialCompanyService.save(financialCompanyRequest);
+        return ResponseEntity.created(URI.create("/api/financial-company/" + saveId)).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody @Valid FinancialCompanyRequest financialCompanyRequest) {
+        financialCompanyService.update(id, financialCompanyRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        financialCompanyService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
