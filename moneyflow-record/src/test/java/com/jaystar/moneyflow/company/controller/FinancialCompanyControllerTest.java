@@ -1,5 +1,7 @@
 package com.jaystar.moneyflow.company.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jaystar.moneyflow.company.dto.FinancialCompanyRequest;
 import com.jaystar.moneyflow.company.dto.FinancialCompanyResponse;
 import com.jaystar.moneyflow.company.service.FinancialCompanyService;
 import com.jaystar.moneyflow.config.EnableMockMvc;
@@ -16,12 +18,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @EnableMockMvc
 @WebMvcTest(controllers = FinancialCompanyController.class)
@@ -33,8 +35,11 @@ class FinancialCompanyControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    private ObjectMapper objectMapper;
+
     @BeforeEach
     void setUp() {
+        objectMapper = new ObjectMapper();
     }
 
     @DisplayName("모든 금융기관을 조회한다.")
@@ -79,6 +84,52 @@ class FinancialCompanyControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("설명에대한 입력테스트")))
+                .andDo(print());
+    }
+
+    @DisplayName("금융기관 한건을 저장한다.")
+    @Test
+    void save() throws Exception {
+        given(financialCompanyService.save(any())).willReturn(1L);
+
+        FinancialCompanyRequest financialCompanyRequest = FinancialCompanyRequest.builder()
+                .name("대박은행")
+                .companyType("BANK")
+                .isUsable(true)
+                .definition("대박은행에대한 설명입니다")
+                .build();
+
+        mockMvc.perform(post("/api/financial-company")
+                        .content(objectMapper.writeValueAsString(financialCompanyRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(header().string("Location", "/api/financial-company/1"))
+                .andDo(print());
+    }
+
+    @DisplayName("금융기관 한건을 수정한다.")
+    @Test
+    void update() throws Exception {
+        FinancialCompanyRequest financialCompanyRequest = FinancialCompanyRequest.builder()
+                .name("대박은행")
+                .companyType("BANK")
+                .isUsable(true)
+                .definition("대박은행에대한 설명입니다")
+                .build();
+
+        mockMvc.perform(put("/api/financial-company/{id}", 1L)
+                        .content(objectMapper.writeValueAsString(financialCompanyRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @DisplayName("금융기관 한건을 삭제한다.")
+    @Test
+    void deleteFinancialCompany() throws Exception {
+        mockMvc.perform(delete("/api/financial-company/{id}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent())
                 .andDo(print());
     }
 }
