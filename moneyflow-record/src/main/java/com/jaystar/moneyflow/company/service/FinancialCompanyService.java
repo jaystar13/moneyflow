@@ -33,7 +33,7 @@ public class FinancialCompanyService {
 
     private FinancialCompany findById(Long id) {
         return financialCompanyRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.CODE_TYPE_NOT_FOUND));
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FINANCIAL_COMPANY_NOT_FOUND));
     }
 
     @Transactional(readOnly = true)
@@ -47,5 +47,10 @@ public class FinancialCompanyService {
         financialCompany.update(request.toFinancialCompany());
 
         return FinancialCompanyResponse.of(financialCompany);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        financialCompanyRepository.deleteById(id);
     }
 }

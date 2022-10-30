@@ -1,5 +1,7 @@
 package com.jaystar.moneyflow.company.service;
 
+import com.jaystar.moneyflow.common.exception.EntityNotFoundException;
+import com.jaystar.moneyflow.common.exception.ErrorCode;
 import com.jaystar.moneyflow.company.domain.CompanyType;
 import com.jaystar.moneyflow.company.domain.FinancialCompany;
 import com.jaystar.moneyflow.company.dto.FinancialCompanyRequest;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -121,5 +124,23 @@ class FinancialCompanyServiceTest {
                 () -> assertThat(update.getIsUsable()).isEqualTo(financialCompanyRequest.isUsable()),
                 () -> assertThat(update.getDefinition()).isEqualTo(financialCompanyRequest.getDefinition())
         );
+    }
+
+    @DisplayName("금융기관 단건을 삭제한다.")
+    @Test
+    void delete() {
+        financialCompanyService.delete(1L);
+
+        verify(financialCompanyRepository).deleteById(1L);
+    }
+
+    @DisplayName("존재하지 않는 금융기관 id 조회시 예외가 발생한다.")
+    @Test
+    void findNotExistFinanceCompany() {
+        given(financialCompanyRepository.findById(anyLong())).willReturn(Optional.empty());
+
+        assertThatThrownBy(() -> financialCompanyService.findFinancialCompany(1L))
+                .hasMessage(ErrorCode.FINANCIAL_COMPANY_NOT_FOUND.getMessage())
+                .isInstanceOf(EntityNotFoundException.class);
     }
 }
