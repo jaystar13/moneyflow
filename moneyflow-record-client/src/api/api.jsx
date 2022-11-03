@@ -59,3 +59,34 @@ export const updateCode = async (id, data) => {
 export const deleteCode = async (id) => {
   await client.delete(`/api/codes/${id}`);
 };
+
+export const createFinancialCompany = (data) => {
+  client.post(`/api/financial-company`, data, {}).catch((error) => {
+    if (error.response) {
+      console.log(
+        error.response.data.errors.forEach((element) => {
+          console.log(element.defaultMessage);
+        })
+      );
+    }
+  });
+};
+
+export const getAllFinancialCompaies = () => {
+  client.get("/api/financial-company");
+};
+
+export const getFinancialCompany = (id) => {
+  client.get(`/api/financial-company/${id}`);
+};
+
+export const updateFinancialCompany = (id, data) => {
+  client.put(`api/financial-company/${id}`, data);
+};
+
+export const deleteFinancialCompany = (id) => {
+  client.delete(`api/financial-company/${id}`);
+};
+
+export const getCompanyTypes = () =>
+  client.get("api/financial-company/company-types");

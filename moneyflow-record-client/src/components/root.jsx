@@ -19,6 +19,7 @@ const items = [
     children: [
       { label: <Link to="codeType">Code type</Link>, key: "A1" },
       { label: <Link to="code">Code</Link>, key: "A2" },
+      { label: <Link to="financialCompany">금융기관</Link>, key: "A3" },
     ],
   },
   { label: "Option 2", key: "B1", icon: <DesktopOutlined /> },

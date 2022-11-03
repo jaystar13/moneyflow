@@ -3,6 +3,7 @@ import ErrorPage from "../error-page";
 import Root from "../components/root";
 import CodeType from "../components/codeType/codeTypeContainer";
 import CodeContainer from "../components/code/codeContainer";
+import FinancialCompanyContainer from "../components/financialCompany/financialCompanyContainer";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "code",
         element: <CodeContainer />,
+      },
+      {
+        path: "financialCompany",
+        element: <FinancialCompanyContainer />,
       },
     ],
   },
