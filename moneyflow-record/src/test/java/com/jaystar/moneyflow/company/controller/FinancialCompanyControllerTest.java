@@ -132,4 +132,12 @@ class FinancialCompanyControllerTest {
                 .andExpect(status().isNoContent())
                 .andDo(print());
     }
+
+    @DisplayName("회사구분 코드를 조회한다.")
+    @Test
+    void findCompanyType() throws Exception {
+        mockMvc.perform(get("/api/financial-company/company-types")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print());
+    }
 }

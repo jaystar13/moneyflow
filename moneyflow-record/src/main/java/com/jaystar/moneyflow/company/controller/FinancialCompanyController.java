@@ -34,7 +34,7 @@ public class FinancialCompanyController {
         return mapper;
     }
 
-    @GetMapping("/companyTypes")
+    @GetMapping("/company-types")
     public List<EnumMapperValue> getCompanyTypes() {
         return enumMapper.get("CompanyType");
     }
