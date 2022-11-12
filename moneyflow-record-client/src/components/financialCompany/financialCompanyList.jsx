@@ -77,13 +77,6 @@ export default function FinancialCompanyList({
 
   return (
     <div>
-      <Button
-        type="primary"
-        style={{ float: "right", marginBottom: 16 }}
-        onClick={onAdd}
-      >
-        Add
-      </Button>
       <Table columns={columns} dataSource={dataSource} rowKey="id" />
     </div>
   );

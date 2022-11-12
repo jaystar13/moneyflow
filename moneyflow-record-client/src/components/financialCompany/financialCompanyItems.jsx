@@ -63,15 +63,11 @@ export default function FinancialCompanyItems({
 
   const submit = async (formData) => {
     if (formData.id === 0) {
-      await asyncFunc(createFinancialCompany, formData);
+      await createFinancialCompany(formData);
     } else {
-      await asyncFunc(updateFinancialCompany, formData.id, formData);
+      await updateFinancialCompany(formData.id, formData);
     }
     callbackOnSave(formData.id === "0" ? "save" : "update");
-  };
-
-  const asyncFunc = async (func, ...param) => {
-    func(...param);
   };
 
   return (

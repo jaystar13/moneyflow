@@ -1,6 +1,7 @@
 import { useState } from "react";
 import FinancialCompanyForm from "./financialCompanyForm";
 import FinancialCompanyList from "./financialCompanyList";
+import FinancialCompanyActions from "./financialCompanyActions";
 import { Typography } from "antd";
 
 const { Title } = Typography;
@@ -27,6 +28,7 @@ export default function FinancialCompanyContainer() {
         data={financialCompany}
         reRender={{ render: render, setRender: setRender }}
       />
+      <FinancialCompanyActions configure={modalConfigure} />
       <FinancialCompanyList
         callbackModfy={callbackModfy}
         reRender={{ render: render, setRender: setRender }}
