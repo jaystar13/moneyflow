@@ -49,13 +49,13 @@ class FinancialCompanyControllerTest {
                 FinancialCompanyResponse.builder()
                         .name("대한은행")
                         .companyType("BANK")
-                        .isUsable(Boolean.TRUE)
+                        .isUsable(true)
                         .definition("definition 1")
                         .build()
                 , FinancialCompanyResponse.builder()
                         .name("우리증권")
                         .companyType("STOCK")
-                        .isUsable(Boolean.FALSE)
+                        .isUsable(false)
                         .definition("definition 2")
                         .build()
         );
@@ -95,7 +95,7 @@ class FinancialCompanyControllerTest {
         FinancialCompanyRequest financialCompanyRequest = FinancialCompanyRequest.builder()
                 .name("대박은행")
                 .companyType("BANK")
-                .isUsable(true)
+                .usable(true)
                 .definition("대박은행에대한 설명입니다")
                 .build();
 
@@ -113,7 +113,7 @@ class FinancialCompanyControllerTest {
         FinancialCompanyRequest financialCompanyRequest = FinancialCompanyRequest.builder()
                 .name("대박은행")
                 .companyType("BANK")
-                .isUsable(true)
+                .usable(true)
                 .definition("대박은행에대한 설명입니다")
                 .build();
 

@@ -8,14 +8,38 @@ export default function FinancialCompanyForm({ configure, data, reRender }) {
     setModalOpen(configure.modalOpen);
   });
 
+  const callbackOnSave = (eventType) => {
+    reRendering();
+    modalControll(eventType);
+  };
+
+  const reRendering = () => {
+    if (reRender) {
+      const { render, setRender } = reRender;
+      setRender(!render);
+    }
+  };
+
+  const modalControll = (eventType) => {
+    if (eventType !== "save" && configure.useModal) {
+      setModalOpen(false);
+    }
+  };
+
+  const financialCompanyItems = () => {
+    return (
+      <div>
+        <FinancialCompanyItems data={data} callbackOnSave={callbackOnSave} />
+      </div>
+    );
+  };
+
   return (
     <div>
       {configure.useModal ? (
-        <Modal open={modalOpen}>
-          <FinancialCompanyItems data={data} />
-        </Modal>
+        <Modal open={modalOpen}>financialCompanyItems()</Modal>
       ) : (
-        <FinancialCompanyItems data={data} />
+        financialCompanyItems()
       )}
     </div>
   );

@@ -1,11 +1,29 @@
-import { Typography, Form, InputNumber, Input, Select } from "antd";
+import {
+  Typography,
+  Form,
+  InputNumber,
+  Input,
+  Select,
+  Button,
+  Switch,
+} from "antd";
 import { useState } from "react";
 import { useEffect } from "react";
-import { getCompanyTypes, getAllCodeTypes } from "../../api/api";
+import {
+  getCompanyTypes,
+  createFinancialCompany,
+  updateFinancialCompany,
+} from "../../api/api";
 
 const { Title } = Typography;
+const { TextArea } = Input;
 
-export default function FinancialCompanyItems({ data, callback }) {
+export default function FinancialCompanyItems({
+  data: financialCompany,
+  callbackOnSave,
+}) {
+  const [form] = Form.useForm();
+
   const [companyTypeOptions, setCompanyTypeOptions] = useState([]);
 
   useEffect(() => {
@@ -31,13 +49,42 @@ export default function FinancialCompanyItems({ data, callback }) {
     return ct;
   };
 
+  useEffect(() => {
+    initForm();
+  }, [financialCompany]);
+
+  const initForm = () => {
+    form.setFieldsValue({ ...financialCompany });
+  };
+
+  const onFinish = (values) => {
+    submit(values);
+  };
+
+  const submit = async (formData) => {
+    if (formData.id === 0) {
+      await asyncFunc(createFinancialCompany, formData);
+    } else {
+      await asyncFunc(updateFinancialCompany, formData.id, formData);
+    }
+    callbackOnSave(formData.id === "0" ? "save" : "update");
+  };
+
+  const asyncFunc = async (func, ...param) => {
+    func(...param);
+  };
+
   return (
     <div>
-      <Title level={3}>{data.id === 0 ? "Add" : "Modify"} 금융기관</Title>
+      <Title level={3}>
+        {financialCompany.id === 0 ? "Add" : "Modify"} 금융기관
+      </Title>
       <Form
+        form={form}
         name="financial-company-form"
         labelCol={{ span: 3 }}
         wrapperCol={{ span: 16 }}
+        onFinish={onFinish}
       >
         <Form.Item label="id" name="id" rules={[{ required: true }]}>
           <InputNumber disabled />
@@ -63,6 +110,22 @@ export default function FinancialCompanyItems({ data, callback }) {
             placeholder="선택하세요"
             options={companyTypeOptions}
           ></Select>
+        </Form.Item>
+        <Form.Item label="사용여부" name="usable" valuePropName="checked">
+          <Switch />
+        </Form.Item>
+        <Form.Item label="참고사항" name="definition">
+          <TextArea rows={2} />
+        </Form.Item>
+        <Form.Item
+          wrapperCol={{
+            offset: 3,
+            span: 16,
+          }}
+        >
+          <Button type="primary" htmlType="submit">
+            Save
+          </Button>
         </Form.Item>
       </Form>
     </div>

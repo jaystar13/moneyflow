@@ -44,7 +44,7 @@ class FinancialCompanyServiceTest {
         FinancialCompanyRequest financialCompanyRequest = FinancialCompanyRequest.builder()
                 .name("우리증권")
                 .companyType("STOCK")
-                .isUsable(Boolean.TRUE)
+                .usable(Boolean.TRUE)
                 .definition("설명설명설명").build();
 
         financialCompanyService.save(financialCompanyRequest);
@@ -58,7 +58,7 @@ class FinancialCompanyServiceTest {
         FinancialCompany financialCompany = FinancialCompany.builder()
                 .name("우리증권")
                 .companyType(CompanyType.STOCK)
-                .isUsable(Boolean.TRUE)
+                .usable(Boolean.TRUE)
                 .definition("설명설명설명").build();
 
         given(financialCompanyRepository.findById(anyLong())).willReturn(Optional.of(financialCompany));
@@ -68,7 +68,7 @@ class FinancialCompanyServiceTest {
         assertAll(
                 () -> assertThat(response.getName()).isEqualTo(financialCompany.getName()),
                 () -> assertThat(response.getCompanyType()).isEqualTo(financialCompany.getCompanyType().name()),
-                () -> assertThat(response.getIsUsable()).isEqualTo(financialCompany.getIsUsable()),
+                () -> assertThat(response.isUsable()).isEqualTo(financialCompany.getUsable().booleanValue()),
                 () -> assertThat(response.getDefinition()).isEqualTo(financialCompany.getDefinition()));
     }
 
@@ -78,14 +78,14 @@ class FinancialCompanyServiceTest {
         FinancialCompany financialCompany1 = FinancialCompany.builder()
                 .name("null")
                 .companyType(CompanyType.BANK)
-                .isUsable(Boolean.TRUE)
+                .usable(Boolean.TRUE)
                 .definition("null")
                 .build();
 
         FinancialCompany financialCompany2 = FinancialCompany.builder()
                 .name("null")
                 .companyType(CompanyType.BANK)
-                .isUsable(Boolean.TRUE)
+                .usable(Boolean.TRUE)
                 .definition("null")
                 .build();
 
@@ -103,14 +103,14 @@ class FinancialCompanyServiceTest {
         FinancialCompany financialCompany = FinancialCompany.builder()
                 .name("대한은행")
                 .companyType(CompanyType.BANK)
-                .isUsable(Boolean.TRUE)
+                .usable(Boolean.TRUE)
                 .definition("설명123")
                 .build();
 
         FinancialCompanyRequest financialCompanyRequest = FinancialCompanyRequest.builder()
                 .name("우리증권")
                 .companyType("STOCK")
-                .isUsable(Boolean.FALSE)
+                .usable(Boolean.FALSE)
                 .definition("수정34567")
                 .build();
 
@@ -121,7 +121,7 @@ class FinancialCompanyServiceTest {
         assertAll(
                 () -> assertThat(update.getName()).isEqualTo(financialCompanyRequest.getName()),
                 () -> assertThat(update.getCompanyType()).isEqualTo(financialCompanyRequest.getCompanyType()),
-                () -> assertThat(update.getIsUsable()).isEqualTo(financialCompanyRequest.isUsable()),
+                () -> assertThat(update.isUsable()).isEqualTo(financialCompanyRequest.isUsable()),
                 () -> assertThat(update.getDefinition()).isEqualTo(financialCompanyRequest.getDefinition())
         );
     }

@@ -20,7 +20,7 @@ public class FinancialCompanyRepositoryTest {
         FinancialCompany financialCompany = FinancialCompany.builder()
                 .name("대박은행")
                 .companyType(CompanyType.BANK)
-                .isUsable(Boolean.TRUE)
+                .usable(Boolean.TRUE)
                 .definition("대박은행에대한 설명입니다.")
                 .build();
 

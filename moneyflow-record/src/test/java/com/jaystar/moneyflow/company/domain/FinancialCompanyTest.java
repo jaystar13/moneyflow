@@ -14,7 +14,7 @@ class FinancialCompanyTest {
                 .id(1L)
                 .name("대한은행")
                 .companyType(CompanyType.BANK)
-                .isUsable(Boolean.TRUE)
+                .usable(Boolean.TRUE)
                 .definition("설명문")
                 .build();
 
@@ -22,7 +22,7 @@ class FinancialCompanyTest {
                 .id(1L)
                 .name("대한은행")
                 .companyType(CompanyType.BANK)
-                .isUsable(Boolean.TRUE)
+                .usable(Boolean.TRUE)
                 .definition("설명문")
                 .build();
 

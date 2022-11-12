@@ -10,27 +10,36 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public class FinancialCompanyResponse {
+
+    private Long id;
+
     private String name;
 
     private String companyType;
 
-    private Boolean isUsable;
+    private String companyTypeTitle;
+
+    private boolean isUsable;
 
     private String definition;
 
     @Builder
-    public FinancialCompanyResponse(String name, String companyType, Boolean isUsable, String definition) {
+    public FinancialCompanyResponse(Long id, String name, String companyType, String companyTypeTitle, boolean isUsable, String definition) {
+        this.id = id;
         this.name = name;
         this.companyType = companyType;
+        this.companyTypeTitle = companyTypeTitle;
         this.isUsable = isUsable;
         this.definition = definition;
     }
 
     public static FinancialCompanyResponse of(FinancialCompany financialCompany) {
         return FinancialCompanyResponse.builder()
+                .id(financialCompany.getId())
                 .name(financialCompany.getName())
                 .companyType(financialCompany.getCompanyType().name())
-                .isUsable(financialCompany.getIsUsable())
+                .companyTypeTitle(financialCompany.getCompanyType().getTitle())
+                .isUsable(financialCompany.getUsable().booleanValue())
                 .definition(financialCompany.getDefinition())
                 .build();
     }

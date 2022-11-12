@@ -72,13 +72,11 @@ export const createFinancialCompany = (data) => {
   });
 };
 
-export const getAllFinancialCompaies = () => {
+export const getAllFinancialCompaies = () =>
   client.get("/api/financial-company");
-};
 
-export const getFinancialCompany = (id) => {
+export const getFinancialCompany = (id) =>
   client.get(`/api/financial-company/${id}`);
-};
 
 export const updateFinancialCompany = (id, data) => {
   client.put(`api/financial-company/${id}`, data);

@@ -14,15 +14,15 @@ public class FinancialCompanyRequest {
 
     public String companyType;
 
-    public boolean isUsable;
+    public boolean usable;
 
     public String definition;
 
     @Builder
-    public FinancialCompanyRequest(String name, String companyType, boolean isUsable, String definition) {
+    public FinancialCompanyRequest(String name, String companyType, boolean usable, String definition) {
         this.name = name;
         this.companyType = companyType;
-        this.isUsable = isUsable;
+        this.usable = usable;
         this.definition = definition;
     }
 
@@ -30,7 +30,7 @@ public class FinancialCompanyRequest {
         return FinancialCompany.builder()
                 .name(name)
                 .companyType(CompanyType.valueOf(companyType))
-                .isUsable(isUsable)
+                .usable(usable)
                 .definition(definition)
                 .build();
     }

@@ -11,19 +11,26 @@ export default function FinancialCompanyContainer() {
     modalOpen: false,
   });
 
-  const defaultFinancialCompany = {
-    id: 0,
-    namd: "",
+  const [financialCompany, setFinancialCompany] = useState({ id: 0 });
+
+  const callbackModfy = (modifyData) => {
+    setFinancialCompany(modifyData);
   };
+
+  const [render, setRender] = useState(false);
 
   return (
     <div>
       <Title>금융기관</Title>
       <FinancialCompanyForm
         configure={modalConfigure}
-        data={defaultFinancialCompany}
+        data={financialCompany}
+        reRender={{ render: render, setRender: setRender }}
       />
-      <FinancialCompanyList />
+      <FinancialCompanyList
+        callbackModfy={callbackModfy}
+        reRender={{ render: render, setRender: setRender }}
+      />
     </div>
   );
 }
