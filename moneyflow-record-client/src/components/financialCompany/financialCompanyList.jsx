@@ -1,7 +1,14 @@
-import { Table, Space, Button } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { Table, Space, Button, Modal } from "antd";
 import { useEffect } from "react";
 import { useState } from "react";
-import { getAllFinancialCompaies, getFinancialCompany } from "../../api/api";
+import {
+  getAllFinancialCompaies,
+  getFinancialCompany,
+  deleteFinancialCompany,
+} from "../../api/api";
+
+const { confirm } = Modal;
 
 export default function FinancialCompanyList({
   callbackModfy: toFinancialCompanyForm,
@@ -50,7 +57,7 @@ export default function FinancialCompanyList({
       render: (_, record) => (
         <Space size="middle">
           <Button onClick={() => onModify(record.id)}>Modify</Button>
-          <Button onClick={() => onRemove(record.id)}>Delete</Button>
+          <Button onClick={() => onDelete(record.id)}>Delete</Button>
         </Space>
       ),
     },
@@ -73,7 +80,17 @@ export default function FinancialCompanyList({
     toFinancialCompanyForm(data);
   };
 
-  const onAdd = () => {};
+  const onDelete = (financialCompanyId) => {
+    confirm({
+      title: "삭제하시겠습니까?",
+      icon: <ExclamationCircleOutlined />,
+      content: "삭제를 하시면 당연하게도 지워집니다!😱",
+      async onOk() {
+        await deleteFinancialCompany(financialCompanyId);
+        initTable();
+      },
+    });
+  };
 
   return (
     <div>

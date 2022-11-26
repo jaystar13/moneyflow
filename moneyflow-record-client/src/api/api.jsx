@@ -80,9 +80,8 @@ export const getFinancialCompany = (id) =>
 export const updateFinancialCompany = (id, data) =>
   client.put(`api/financial-company/${id}`, data);
 
-export const deleteFinancialCompany = (id) => {
+export const deleteFinancialCompany = (id) =>
   client.delete(`api/financial-company/${id}`);
-};
 
 export const getCompanyTypes = () =>
   client.get("api/financial-company/company-types");

@@ -36,6 +36,13 @@ public class FinancialCompany {
         this.definition = definition;
     }
 
+    public void update(FinancialCompany financialCompany) {
+        this.name = financialCompany.name;
+        this.companyType = financialCompany.companyType;
+        this.usable = financialCompany.usable;
+        this.definition = financialCompany.definition;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -49,10 +56,4 @@ public class FinancialCompany {
         return Objects.hash(id, name, companyType, usable, definition);
     }
 
-    public void update(FinancialCompany financialCompany) {
-        this.name = financialCompany.name;
-        this.companyType = financialCompany.companyType;
-        this.usable = financialCompany.usable;
-        this.definition = financialCompany.definition;
-    }
 }

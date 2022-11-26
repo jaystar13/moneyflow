@@ -1,24 +1,28 @@
 import { useState } from "react";
 import FinancialCompanyForm from "./financialCompanyForm";
 import FinancialCompanyList from "./financialCompanyList";
-import FinancialCompanyActions from "./financialCompanyActions";
 import { Typography } from "antd";
 
 const { Title } = Typography;
 
 export default function FinancialCompanyContainer() {
   const [modalConfigure, setModalConfigure] = useState({
-    useModal: false,
+    useModal: true,
     modalOpen: false,
   });
 
   const [financialCompany, setFinancialCompany] = useState({ id: 0 });
 
-  const callbackModfy = (modifyData) => {
-    setFinancialCompany(modifyData);
-  };
-
   const [render, setRender] = useState(false);
+
+  const showFormLayer = (modifyData) => {
+    setFinancialCompany(modifyData ? modifyData : { id: 0 });
+
+    if (modalConfigure.useModal) {
+      setModalConfigure({ ...modalConfigure, modalOpen: true });
+      setRender(!render);
+    }
+  };
 
   return (
     <div>
@@ -27,10 +31,10 @@ export default function FinancialCompanyContainer() {
         configure={modalConfigure}
         data={financialCompany}
         reRender={{ render: render, setRender: setRender }}
+        callbackOnAdd={showFormLayer}
       />
-      <FinancialCompanyActions configure={modalConfigure} />
       <FinancialCompanyList
-        callbackModfy={callbackModfy}
+        callbackModfy={showFormLayer}
         reRender={{ render: render, setRender: setRender }}
       />
     </div>

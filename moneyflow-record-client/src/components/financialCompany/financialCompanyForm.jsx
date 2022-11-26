@@ -1,16 +1,14 @@
 import FinancialCompanyItems from "./financialCompanyItems";
-import { Modal } from "antd";
-import { useState, useEffect } from "react";
+import { Modal, Button } from "antd";
 
-export default function FinancialCompanyForm({ configure, data, reRender }) {
-  const [modalOpen, setModalOpen] = useState(false);
-  useEffect(() => {
-    setModalOpen(configure.modalOpen);
-  });
-
-  const callbackOnSave = (eventType) => {
-    reRendering();
-    modalControll(eventType);
+export default function FinancialCompanyForm({
+  configure,
+  data,
+  reRender,
+  callbackOnAdd,
+}) {
+  const callbackOnSave = () => {
+    modalClose();
   };
 
   const reRendering = () => {
@@ -20,26 +18,44 @@ export default function FinancialCompanyForm({ configure, data, reRender }) {
     }
   };
 
-  const modalControll = (eventType) => {
-    if (eventType !== "save" && configure.useModal) {
-      setModalOpen(false);
+  const modalClose = () => {
+    if (configure.modalOpen) {
+      configure.modalOpen = false;
+      reRendering();
     }
   };
 
-  const financialCompanyItems = () => {
-    return (
-      <div>
-        <FinancialCompanyItems data={data} callbackOnSave={callbackOnSave} />
-      </div>
-    );
+  const onAdd = () => {
+    callbackOnAdd();
   };
 
   return (
     <div>
       {configure.useModal ? (
-        <Modal open={modalOpen}>financialCompanyItems()</Modal>
+        <Modal
+          open={configure.modalOpen}
+          onCancel={modalClose}
+          footer={[
+            <Button key="cancel" onClick={modalClose}>
+              Cancel
+            </Button>,
+          ]}
+        >
+          <FinancialCompanyItems data={data} callbackOnSave={callbackOnSave} />
+        </Modal>
       ) : (
-        financialCompanyItems()
+        <FinancialCompanyItems data={data} callbackOnSave={callbackOnSave} />
+      )}
+      {configure.useModal ? (
+        <Button
+          type="primary"
+          style={{ float: "right", marginBottom: 16 }}
+          onClick={onAdd}
+        >
+          Add
+        </Button>
+      ) : (
+        ""
       )}
     </div>
   );

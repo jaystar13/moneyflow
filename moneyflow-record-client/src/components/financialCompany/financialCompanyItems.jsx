@@ -54,7 +54,8 @@ export default function FinancialCompanyItems({
   }, [financialCompany]);
 
   const initForm = () => {
-    form.setFieldsValue({ ...financialCompany });
+    form.resetFields();
+    form.setFieldsValue(financialCompany);
   };
 
   const onFinish = (values) => {
@@ -78,9 +79,10 @@ export default function FinancialCompanyItems({
       <Form
         form={form}
         name="financial-company-form"
-        labelCol={{ span: 3 }}
-        wrapperCol={{ span: 16 }}
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 18 }}
         onFinish={onFinish}
+        preserve={false}
       >
         <Form.Item label="id" name="id" rules={[{ required: true }]}>
           <InputNumber disabled />
@@ -115,7 +117,7 @@ export default function FinancialCompanyItems({
         </Form.Item>
         <Form.Item
           wrapperCol={{
-            offset: 3,
+            offset: 6,
             span: 16,
           }}
         >
