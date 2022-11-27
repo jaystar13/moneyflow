@@ -31,6 +31,7 @@ public class FinancialCompanyService {
         return FinancialCompanyResponse.of(findById(id));
     }
 
+    @Transactional(readOnly = true)
     private FinancialCompany findById(Long id) {
         return financialCompanyRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.FINANCIAL_COMPANY_NOT_FOUND));

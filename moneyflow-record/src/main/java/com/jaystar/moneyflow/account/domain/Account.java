@@ -1,15 +1,15 @@
 package com.jaystar.moneyflow.account.domain;
 
 import com.jaystar.moneyflow.company.domain.FinancialCompany;
-import lombok.Builder;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Entity(name = "account")
 public class Account {
@@ -27,14 +27,21 @@ public class Account {
 
     private String accountNo;
 
-    private Date fromDate;
+    private LocalDate fromDate;
 
-    private Date toDate;
+    private LocalDate toDate;
 
     private String definition;
 
-    @Builder
-    public Account(Long id, String name, FinancialCompany financialCompany, String accountNo, Date fromDate, Date toDate, String definition) {
+    public Account(String name, FinancialCompany financialCompany, String accountNo, LocalDate fromDate, LocalDate toDate) {
+        this(null, name, financialCompany, accountNo, fromDate, toDate, "");
+    }
+
+    public Account(String name, FinancialCompany financialCompany, String accountNo, LocalDate fromDate, LocalDate toDate, String definition) {
+        this(null, name, financialCompany, accountNo, fromDate, toDate, definition);
+    }
+
+    public Account(Long id, String name, FinancialCompany financialCompany, String accountNo, LocalDate fromDate, LocalDate toDate, String definition) {
         this.id = id;
         this.name = name;
         this.financialCompany = financialCompany;
@@ -42,6 +49,27 @@ public class Account {
         this.fromDate = fromDate;
         this.toDate = toDate;
         this.definition = definition;
+
+        if (!checkDate(this.fromDate, this.toDate)) {
+            throw new IllegalArgumentException("시작일자가 종료일자 보다 클 수 없습니다.");
+        }
+    }
+
+    private boolean checkDate(LocalDate fromDate, LocalDate toDate) {
+        if (fromDate == null || toDate == null) {
+            return false;
+        }
+
+        return fromDate.compareTo(toDate) <= 0;
+    }
+
+    public void update(Account account) {
+        this.name = account.name;
+        this.financialCompany = account.financialCompany;
+        this.accountNo = account.accountNo;
+        this.fromDate = account.fromDate;
+        this.toDate = account.toDate;
+        this.definition = account.definition;
     }
 
     @Override
@@ -56,4 +84,5 @@ public class Account {
     public int hashCode() {
         return Objects.hash(id, name, financialCompany, accountNo, fromDate, toDate, definition);
     }
+
 }
