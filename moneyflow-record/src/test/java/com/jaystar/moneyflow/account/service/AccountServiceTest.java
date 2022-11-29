@@ -138,8 +138,8 @@ class AccountServiceTest {
                 "급여계좌",
                 1L,
                 "122077",
-                LocalDate.of(2022, 11, 2),
-                LocalDate.of(2022, 12, 31),
+                "20220101",
+                "20221231",
                 "메인 급여계좌 설명");
 
         given(financialCompanyRepository.findById(anyLong())).willReturn(Optional.of(financialCompany));
@@ -171,8 +171,8 @@ class AccountServiceTest {
                 "급여계좌변경",
                 1L,
                 "1122334455",
-                LocalDate.of(2022, 11, 2),
-                LocalDate.of(2022, 12, 28),
+                "20221102",
+                "20221228",
                 "메인 급여계좌 설명");
 
         AccountResponse modify = accountService.update(1L, modifyRequest);
