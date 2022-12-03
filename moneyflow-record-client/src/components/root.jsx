@@ -28,7 +28,7 @@ const items = [
     key: "sub1",
     icon: <UserOutlined />,
     children: [
-      { label: "Tom", key: "C1" },
+      { label: <Link to="account">계좌관리</Link>, key: "C1" },
       { label: "Bill", key: "C2" },
       { label: "Alex", key: "C3" },
     ],

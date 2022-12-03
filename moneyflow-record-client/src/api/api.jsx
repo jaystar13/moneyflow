@@ -85,3 +85,16 @@ export const deleteFinancialCompany = (id) =>
 
 export const getCompanyTypes = () =>
   client.get("api/financial-company/company-types");
+
+export const createAccount = (data) =>
+  client.post(`/api/accounts`, data, {}).catch((error) => {
+    if (error.response) {
+      console.log(
+        error.response.data.errors.forEach((element) => {
+          console.log(element.defaultMessage);
+        })
+      );
+    }
+  });
+
+export const getAllAccounts = () => client.get("/api/accounts");
