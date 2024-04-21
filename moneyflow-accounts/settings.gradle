@@ -1,0 +1,4 @@
+rootProject.name = 'moneyflow-accounts'
+
+include 'accounts-core'
+include 'accounts-api'
